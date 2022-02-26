@@ -115,6 +115,7 @@ public class Webview implements Closeable, Runnable {
         $pointer = N.webview_create(false, windowPointer);
 
         this.loadURL(null);
+        this.setSize(800, 600);
     }
 
     public void loadURL(@Nullable String url) {
