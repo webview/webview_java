@@ -10,6 +10,7 @@ public class Example {
             return arguments;
         });
 
+        wv.setSize(800, 600);
         wv.loadURL("https://google.com");
 
         // Run the webview event loop, the webview is fully disposed when this returns.

@@ -31,8 +31,8 @@ public class Webview implements Closeable, Runnable {
     public static final Platform PLATFORM = Platform.get();
 
     static {
-        String toLoad = WebviewNative.runSetup();
-        N = Native.load(toLoad, WebviewNative.class);
+        WebviewNative.runSetup();
+        N = Native.load("webview", WebviewNative.class);
     }
 
     @Deprecated

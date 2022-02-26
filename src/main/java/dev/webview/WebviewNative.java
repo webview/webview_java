@@ -16,9 +16,7 @@ public interface WebviewNative extends Library {
     static final PointerByReference NULL_PTR = null;
 
     @SneakyThrows
-    static String runSetup() {
-        String toLoad = "libwebview";
-
+    static void runSetup() {
         String[] libraries = null;
 
         switch (Webview.PLATFORM) {
@@ -41,7 +39,6 @@ public interface WebviewNative extends Library {
                         "webview.dll",
                         "WebView2Loader.dll"
                 };
-                toLoad = "webview";
                 break;
             }
         }
@@ -56,8 +53,6 @@ public interface WebviewNative extends Library {
                 Files.write(file.toPath(), bytes);
             }
         }
-
-        return toLoad;
     }
 
     static final int WV_HINT_NONE = 0;
