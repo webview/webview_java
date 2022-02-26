@@ -1,0 +1,18 @@
+# IntelliJ
+*.iml
+.idea/
+
+# Eclipse
+.settings/
+.project
+.classpath
+.metadata
+
+# Common
+target/
+.DS_Store
+__MACOSX
+
+/webview*
+/libwebview*
+/WebView*
