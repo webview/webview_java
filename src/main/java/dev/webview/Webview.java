@@ -155,29 +155,44 @@ public class Webview implements Closeable, Runnable {
     }
 
     public void bind(@NonNull String name, @NonNull ConsumingProducer<JsonArray, JsonElement> handler) {
-        N.webview_bind($pointer, name, new BindCallback() {
-            @Override
-            public void callback(long seq, String req, long arg) {
-                try {
-                    JsonArray arguments = Rson.DEFAULT.fromJson(req, JsonArray.class);
-
+        N.webview_bind(
+            $pointer,
+            name,
+            new BindCallback() {
+                @Override
+                public void callback(long seq, String req, long arg) {
                     try {
-                        @Nullable
-                        JsonElement result = handler.produce(arguments);
+                        JsonArray arguments = Rson.DEFAULT.fromJson(req, JsonArray.class);
 
-                        N.webview_return($pointer, seq, false, Rson.DEFAULT.toJsonString(result));
-                    } catch (Exception e) {
-                        N.webview_return($pointer, seq, true, e.getMessage());
+                        try {
+                            @Nullable
+                            JsonElement result = handler.produce(arguments);
+
+                            N.webview_return($pointer, seq, false, Rson.DEFAULT.toJsonString(result));
+                        } catch (Exception e) {
+                            N.webview_return($pointer, seq, true, e.getMessage());
+                        }
+                    } catch (JsonParseException e) {
+                        e.printStackTrace();
                     }
-                } catch (JsonParseException e) {
-                    e.printStackTrace();
                 }
-            }
-        }, 0);
+            },
+            0
+        );
     }
 
     public void unbind(@NonNull String name) {
         N.webview_unbind($pointer, name);
+    }
+
+    public void dispatch(@NonNull Runnable handler) {
+        N.webview_dispatch(
+            $pointer,
+            ($pointer, arg) -> {
+                handler.run();
+            },
+            0
+        );
     }
 
     @Override

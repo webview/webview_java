@@ -75,6 +75,19 @@ public interface WebviewNative extends Library {
     }
 
     /**
+     * Used in {@link webview_dispatch}
+     */
+    static interface DispatchCallback extends Callback {
+
+        /**
+         * @param $pointer The pointer of the webview
+         * @param arg      Unused
+         */
+        void callback(long $pointer, long arg);
+
+    }
+
+    /**
      * Creates a new webview instance. If debug is true - developer tools will be
      * enabled (if the platform supports them). Window parameter can be a pointer to
      * the native window handle. If it's non-null - then child WebView is embedded
@@ -173,7 +186,7 @@ public interface WebviewNative extends Library {
      * @param callback The callback to be called
      * @param arg      Unused
      */
-    void webview_bind(long $pointer, @NonNull String name, BindCallback callback, long arg);
+    void webview_bind(long $pointer, @NonNull String name, @NonNull BindCallback callback, long arg);
 
     /**
      * Remove the native callback specified.
@@ -193,5 +206,15 @@ public interface WebviewNative extends Library {
      * @param result   The result (in json)
      */
     void webview_return(long $pointer, long seq, boolean isError, String result);
+
+    /**
+     * Dispatches the callback on the UI thread, only effective while
+     * {@link #webview_run(long)} is blocking.
+     * 
+     * @param $pointer The instance pointer of the webview
+     * @param callback The callback to be called
+     * @param arg      Unused
+     */
+    void webview_dispatch(long $pointer, @NonNull DispatchCallback callback, long arg);
 
 }
