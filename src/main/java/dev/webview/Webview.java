@@ -118,6 +118,10 @@ public class Webview implements Closeable, Runnable {
         this.setSize(800, 600);
     }
 
+    public long getNativeWindowPointer() {
+        return N.webview_get_window($pointer);
+    }
+
     public void loadURL(@Nullable String url) {
         if (url == null) {
             url = "about:blank";
