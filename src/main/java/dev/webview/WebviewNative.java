@@ -19,7 +19,7 @@ public interface WebviewNative extends Library {
     static void runSetup() {
         String[] libraries = null;
 
-        switch (Webview.PLATFORM) {
+        switch (Platform.os) {
             case LINUX: {
                 libraries = new String[] {
                         "libwebview.so"

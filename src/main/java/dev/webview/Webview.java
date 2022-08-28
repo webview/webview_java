@@ -23,12 +23,12 @@ import co.casterlabs.rakurai.json.element.JsonArray;
 import co.casterlabs.rakurai.json.element.JsonElement;
 import co.casterlabs.rakurai.json.serialization.JsonParseException;
 import dev.webview.WebviewNative.BindCallback;
+import dev.webview.platform.OperatingSystem;
+import dev.webview.platform.Platform;
 import lombok.NonNull;
 
 public class Webview implements Closeable, Runnable {
     private static final WebviewNative N;
-
-    public static final Platform PLATFORM = Platform.get();
 
     static {
         WebviewNative.runSetup();
@@ -79,7 +79,7 @@ public class Webview implements Closeable, Runnable {
                 // There is a random margin on Windows that isn't visible, so we must
                 // compensate.
                 // TODO figure out why this is caused.
-                if (PLATFORM == Platform.WINDOWS) {
+                if (Platform.os == OperatingSystem.WINDOWS) {
                     width -= 16;
                     height -= 39;
                 }
