@@ -9,6 +9,7 @@ import com.sun.jna.Library;
 import com.sun.jna.ptr.PointerByReference;
 
 import co.casterlabs.rakurai.io.IOUtil;
+import dev.webview.platform.Platform;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 
@@ -22,22 +23,22 @@ public interface WebviewNative extends Library {
         switch (Platform.os) {
             case LINUX: {
                 libraries = new String[] {
-                        "libwebview.so"
+                        "natives/" + Platform.arch + "/linux/libwebview.so"
                 };
                 break;
             }
 
             case MACOSX: {
                 libraries = new String[] {
-                        "libwebview.dylib"
+                        "natives/" + Platform.arch + "/macosx/libwebview.dylib"
                 };
                 break;
             }
 
             case WINDOWS: {
                 libraries = new String[] {
-                        "webview.dll",
-                        "WebView2Loader.dll"
+                        "natives/" + Platform.arch + "/windows/webview.dll",
+                        "natives/" + Platform.arch + "/windows/WebView2Loader.dll"
                 };
                 break;
             }
@@ -50,7 +51,7 @@ public interface WebviewNative extends Library {
             if (!file.exists()) {
                 InputStream in = WebviewNative.class.getResourceAsStream("/" + lib);
                 byte[] bytes = IOUtil.readInputStreamBytes(in);
-                Files.write(file.toPath(), bytes);
+                Files.write(new File(file.getName()).toPath(), bytes);
             }
         }
     }
