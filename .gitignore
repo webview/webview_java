@@ -16,3 +16,4 @@ __MACOSX
 /webview*
 /libwebview*
 /WebView*
+src/main/java/dev/webview/Test.java
