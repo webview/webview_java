@@ -17,7 +17,7 @@ public class SwingExample {
 
         // Using createAWT allows you to defer the creation of the webview until the
         // canvas is fully renderable.
-        Component component = Webview.createAWT((wv) -> {
+        Component component = Webview.createAWT(true, (wv) -> {
             // Calling `await echo(1,2,3)` will return `[1,2,3]`
             wv.bind("echo", (arguments) -> {
                 return arguments;

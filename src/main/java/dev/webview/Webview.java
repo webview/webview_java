@@ -38,7 +38,7 @@ public class Webview implements Closeable, Runnable {
     @Deprecated
     public long $pointer;
 
-    public static Component createAWT(@NonNull Consumer<Webview> onCreate) {
+    public static Component createAWT(boolean debug, @NonNull Consumer<Webview> onCreate) {
         return new Canvas() {
             private static final long serialVersionUID = 5199512256429931156L;
 
@@ -63,7 +63,7 @@ public class Webview implements Closeable, Runnable {
                     this.initialized = true;
 
                     new Thread(() -> {
-                        this.webview = new Webview(this);
+                        this.webview = new Webview(debug, this);
 
                         this.updateSize();
 
@@ -92,27 +92,31 @@ public class Webview implements Closeable, Runnable {
 
     /**
      * Creates a new Webview.
+     * 
+     * @param debug Enables devtools/inspect element if true.
      */
-    public Webview() {
-        this(NULL_PTR);
+    public Webview(boolean debug) {
+        this(debug, (PointerByReference) null);
     }
 
     /**
      * Creates a new Webview.
      * 
+     * @param debug  Enables devtools/inspect element if true.
+     * 
      * @param target The target awt component, such as a {@link java.awt.JFrame} or
      *               {@link java.awt.Canvas}
      */
-    public Webview(@NonNull Component target) {
-        this(new PointerByReference(Native.getComponentPointer(target)));
+    public Webview(boolean debug, @NonNull Component target) {
+        this(debug, new PointerByReference(Native.getComponentPointer(target)));
     }
 
     /**
      * @deprecated Use this if you absolutely do know what you're doing.
      */
     @Deprecated
-    public Webview(@Nullable PointerByReference windowPointer) {
-        $pointer = N.webview_create(false, windowPointer);
+    public Webview(boolean debug, @Nullable PointerByReference windowPointer) {
+        $pointer = N.webview_create(debug, windowPointer);
 
         this.loadURL(null);
         this.setSize(800, 600);
