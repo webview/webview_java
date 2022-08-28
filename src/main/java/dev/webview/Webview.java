@@ -96,7 +96,7 @@ public class Webview implements Closeable, Runnable {
      * @param debug Enables devtools/inspect element if true.
      */
     public Webview(boolean debug) {
-        this(debug, (PointerByReference) null);
+        this(debug, NULL_PTR);
     }
 
     /**
