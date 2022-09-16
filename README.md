@@ -8,6 +8,10 @@ A (new!) Java port of the [webview project](https://github.com/webview/webview).
 2. Copy and run the example in `Example.java`.
 3. Profit!
 
+## Examples
+[Example](https://github.com/Casterlabs/Webview/blob/main/Example.java)  
+[Swing/AWT Example](https://github.com/Casterlabs/Webview/blob/main/SwingExample.java)
+
 ## MacOS
 
 MacOS requires that all UI code be executed from the first thread, which means you will need to launch Java with `-XstartOnFirstThread`. This also means that the Webview AWT helper will NOT work at all.
