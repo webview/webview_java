@@ -8,8 +8,8 @@ import com.sun.jna.Callback;
 import com.sun.jna.Library;
 import com.sun.jna.ptr.PointerByReference;
 
+import co.casterlabs.commons.platform.Platform;
 import co.casterlabs.rakurai.io.IOUtil;
-import dev.webview.platform.Platform;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 
@@ -20,7 +20,7 @@ public interface WebviewNative extends Library {
     static void runSetup() {
         String[] libraries = null;
 
-        switch (Platform.os) {
+        switch (Platform.osDistribution) {
             case LINUX: {
                 libraries = new String[] {
                         "natives/" + Platform.arch + "/linux/libwebview.so"
@@ -28,19 +28,23 @@ public interface WebviewNative extends Library {
                 break;
             }
 
-            case MACOSX: {
+            case MACOS: {
                 libraries = new String[] {
                         "natives/" + Platform.arch + "/macosx/libwebview.dylib"
                 };
                 break;
             }
 
-            case WINDOWS: {
+            case WINDOWS_NT: {
                 libraries = new String[] {
                         "natives/" + Platform.arch + "/windows/webview.dll",
                         "natives/" + Platform.arch + "/windows/WebView2Loader.dll"
                 };
                 break;
+            }
+
+            default: {
+                throw new IllegalStateException("Unsupported platform: " + Platform.osDistribution);
             }
         }
 

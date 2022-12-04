@@ -92,14 +92,19 @@
 		<dependency>
 			<groupId>com.github.casterlabs.rakurai</groupId>
 			<artifactId>Json</artifactId>
-			<version>1.14.3</version>
+			<version>1.15.0</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.github.casterlabs.rakurai</groupId>
 			<artifactId>Util</artifactId>
-			<version>1.14.3</version>
+			<version>1.15.0</version>
 			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>co.casterlabs.Commons</groupId>
+			<artifactId>Platform</artifactId>
+			<version>1.3.0</version>
 		</dependency>
 
 		<dependency>

@@ -18,13 +18,13 @@ import org.jetbrains.annotations.Nullable;
 import com.sun.jna.Native;
 import com.sun.jna.ptr.PointerByReference;
 
+import co.casterlabs.commons.platform.OSDistribution;
+import co.casterlabs.commons.platform.Platform;
 import co.casterlabs.rakurai.json.Rson;
 import co.casterlabs.rakurai.json.element.JsonArray;
 import co.casterlabs.rakurai.json.element.JsonElement;
 import co.casterlabs.rakurai.json.serialization.JsonParseException;
 import dev.webview.WebviewNative.BindCallback;
-import dev.webview.platform.OperatingSystem;
-import dev.webview.platform.Platform;
 import lombok.NonNull;
 
 public class Webview implements Closeable, Runnable {
@@ -79,7 +79,7 @@ public class Webview implements Closeable, Runnable {
                 // There is a random margin on Windows that isn't visible, so we must
                 // compensate.
                 // TODO figure out why this is caused.
-                if (Platform.os == OperatingSystem.WINDOWS) {
+                if (Platform.osDistribution == OSDistribution.WINDOWS_NT) {
                     width -= 16;
                     height -= 39;
                 }
@@ -163,30 +163,25 @@ public class Webview implements Closeable, Runnable {
     }
 
     public void bind(@NonNull String name, @NonNull ConsumingProducer<JsonArray, JsonElement> handler) {
-        N.webview_bind(
-            $pointer,
-            name,
-            new BindCallback() {
-                @Override
-                public void callback(long seq, String req, long arg) {
+        N.webview_bind($pointer, name, new BindCallback() {
+            @Override
+            public void callback(long seq, String req, long arg) {
+                try {
+                    JsonArray arguments = Rson.DEFAULT.fromJson(req, JsonArray.class);
+
                     try {
-                        JsonArray arguments = Rson.DEFAULT.fromJson(req, JsonArray.class);
+                        @Nullable
+                        JsonElement result = handler.produce(arguments);
 
-                        try {
-                            @Nullable
-                            JsonElement result = handler.produce(arguments);
-
-                            N.webview_return($pointer, seq, false, Rson.DEFAULT.toJsonString(result));
-                        } catch (Exception e) {
-                            N.webview_return($pointer, seq, true, e.getMessage());
-                        }
-                    } catch (JsonParseException e) {
-                        e.printStackTrace();
+                        N.webview_return($pointer, seq, false, Rson.DEFAULT.toJsonString(result));
+                    } catch (Exception e) {
+                        N.webview_return($pointer, seq, true, e.getMessage());
                     }
+                } catch (JsonParseException e) {
+                    e.printStackTrace();
                 }
-            },
-            0
-        );
+            }
+        }, 0);
     }
 
     public void unbind(@NonNull String name) {
@@ -194,13 +189,9 @@ public class Webview implements Closeable, Runnable {
     }
 
     public void dispatch(@NonNull Runnable handler) {
-        N.webview_dispatch(
-            $pointer,
-            ($pointer, arg) -> {
-                handler.run();
-            },
-            0
-        );
+        N.webview_dispatch($pointer, ($pointer, arg) -> {
+            handler.run();
+        }, 0);
     }
 
     @Override
