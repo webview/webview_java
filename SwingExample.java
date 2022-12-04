@@ -40,6 +40,8 @@ public class SwingExample {
 
         frame.getContentPane().add(component, BorderLayout.CENTER);
 
+
+        frame.setTitle("My Webview App");
         frame.setSize(800, 600);
         frame.setVisible(true);
     }

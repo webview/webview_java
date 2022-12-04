@@ -10,6 +10,7 @@ public class Example {
             return arguments;
         });
 
+        wv.setTitle("My Webview App");
         wv.setSize(800, 600);
         wv.loadURL("https://google.com");
 
