@@ -12,6 +12,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.io.Closeable;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -162,7 +163,7 @@ public class Webview implements Closeable, Runnable {
         N.webview_eval($pointer, script);
     }
 
-    public void bind(@NonNull String name, @NonNull ConsumingProducer<JsonArray, JsonElement> handler) {
+    public void bind(@NonNull String name, @NonNull Function<JsonArray, JsonElement> handler) {
         N.webview_bind($pointer, name, new BindCallback() {
             @Override
             public void callback(long seq, String req, long arg) {
@@ -171,7 +172,7 @@ public class Webview implements Closeable, Runnable {
 
                     try {
                         @Nullable
-                        JsonElement result = handler.produce(arguments);
+                        JsonElement result = handler.apply(arguments);
 
                         N.webview_return($pointer, seq, false, Rson.DEFAULT.toJsonString(result));
                     } catch (Exception e) {
