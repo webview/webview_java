@@ -64,12 +64,17 @@ public interface WebviewNative extends Library {
 
         // Extract all of the libs.
         for (String lib : libraries) {
-            File file = new File(lib);
+            File target = new File(new File(lib).getName());
 
-            if (!file.exists()) {
-                InputStream in = WebviewNative.class.getResourceAsStream("/" + lib.toLowerCase());
-                byte[] bytes = IOUtil.readInputStreamBytes(in);
-                Files.write(new File(file.getName()).toPath(), bytes);
+            if (!target.exists()) {
+                try {
+                    InputStream in = WebviewNative.class.getResourceAsStream("/" + lib.toLowerCase());
+                    byte[] bytes = IOUtil.readInputStreamBytes(in);
+                    Files.write(target.toPath(), bytes);
+                } catch (Exception e) {
+                    System.err.println("Unable to extract native: " + lib);
+                    throw e;
+                }
             }
         }
     }
