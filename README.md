@@ -16,8 +16,8 @@ The Java port of the [webview project](https://github.com/webview/webview). It u
 
 ## Examples
 
-[Example](https://github.com/Casterlabs/Webview/blob/main/Example.java)  
-[Swing/AWT Example](https://github.com/Casterlabs/Webview/blob/main/SwingExample.java)
+[Example](https://github.com/webview/webview_java/blob/main/Example.java)
+[Swing/AWT Example](https://github.com/webview/webview_java/blob/main/SwingExample.java)
 
 ## MacOS
 
