@@ -3,9 +3,12 @@ package dev.webview;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.util.Arrays;
+import java.util.List;
 
 import com.sun.jna.Callback;
 import com.sun.jna.Library;
+import com.sun.jna.Structure;
 import com.sun.jna.ptr.PointerByReference;
 
 import co.casterlabs.commons.io.streams.StreamUtil;
@@ -227,5 +230,24 @@ interface WebviewNative extends Library {
      * @param arg      Unused
      */
     void webview_dispatch(long $pointer, @NonNull DispatchCallback callback, long arg);
+
+    /**
+     * Returns the version info.
+     */
+    VersionInfoStruct webview_version();
+
+    static class VersionInfoStruct extends Structure {
+        public int major; // This is technically in a sub-struct.
+        public int minor; // This is technically in a sub-struct.
+        public int patch; // This is technically in a sub-struct.
+        public byte[] version_number = new byte[32];
+        public byte[] pre_release = new byte[48];
+        public byte[] build_metadata = new byte[48];
+
+        @Override
+        protected List<String> getFieldOrder() {
+            return Arrays.asList("major", "minor", "patch", "version_number", "pre_release", "build_metadata");
+        }
+    }
 
 }

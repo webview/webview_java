@@ -197,4 +197,16 @@ public class Webview implements Closeable, Runnable {
         N.webview_terminate($pointer);
     }
 
+    public static String getVersion() {
+        byte[] bytes = N.webview_version().version_number;
+        int length = 0;
+        for (byte b : bytes) {
+            if (b == 0) {
+                break;
+            }
+            length++;
+        }
+        return new String(bytes, 0, length);
+    }
+
 }
