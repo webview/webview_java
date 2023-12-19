@@ -13,7 +13,7 @@ import co.casterlabs.commons.platform.Platform;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 
-public interface WebviewNative extends Library {
+interface WebviewNative extends Library {
     static final PointerByReference NULL_PTR = null;
 
     @SneakyThrows
