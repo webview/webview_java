@@ -23,22 +23,22 @@ public interface WebviewNative extends Library {
         switch (Platform.osDistribution) {
             case LINUX: {
                 libraries = new String[] {
-                        "natives/" + Platform.archTarget + "/linux/libwebview.so"
+                        "dev/webview/natives/" + Platform.archTarget + "/linux/libwebview.so"
                 };
                 break;
             }
 
             case MACOS: {
                 libraries = new String[] {
-                        "natives/" + Platform.archTarget + "/macos/libwebview.dylib"
+                        "dev/webview/natives/" + Platform.archTarget + "/macos/libwebview.dylib"
                 };
                 break;
             }
 
             case WINDOWS_NT: {
                 libraries = new String[] {
-                        "natives/" + Platform.archTarget + "/windows_nt/webview.dll",
-                        "natives/" + Platform.archTarget + "/windows_nt/WebView2Loader.dll"
+                        "dev/webview/natives/" + Platform.archTarget + "/windows_nt/webview.dll",
+                        "dev/webview/natives/" + Platform.archTarget + "/windows_nt/WebView2Loader.dll"
                 };
                 break;
             }
