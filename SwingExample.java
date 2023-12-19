@@ -17,7 +17,8 @@ public class SwingExample {
 
         // Using createAWT allows you to defer the creation of the webview until the
         // canvas is fully renderable.
-        Component component = Webview.createAWT(true, (wv) -> {
+        AWTWebview component = new AWTWebview(true);
+        component.setOnInitialized((wv) -> {
             // Calling `await echo(1,2,3)` will return `[1,2,3]`
             wv.bind("echo", (arguments) -> {
                 return arguments;
@@ -28,18 +29,14 @@ public class SwingExample {
             frame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
-                    wv.close();
+                    component.close();
                     frame.dispose();
                     System.exit(0);
                 }
             });
-
-            // Run the webview event loop, the webview is fully disposed when this returns.
-            wv.run();
         });
 
         frame.getContentPane().add(component, BorderLayout.CENTER);
-
 
         frame.setTitle("My Webview App");
         frame.setSize(800, 600);
