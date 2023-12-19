@@ -6,25 +6,14 @@ import static dev.webview.WebviewNative.WV_HINT_MAX;
 import static dev.webview.WebviewNative.WV_HINT_MIN;
 import static dev.webview.WebviewNative.WV_HINT_NONE;
 
-import java.awt.Canvas;
 import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Graphics;
 import java.io.Closeable;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 import org.jetbrains.annotations.Nullable;
 
 import com.sun.jna.Native;
 import com.sun.jna.ptr.PointerByReference;
 
-import co.casterlabs.commons.platform.OSDistribution;
-import co.casterlabs.commons.platform.Platform;
-import co.casterlabs.rakurai.json.Rson;
-import co.casterlabs.rakurai.json.element.JsonArray;
-import co.casterlabs.rakurai.json.element.JsonElement;
-import co.casterlabs.rakurai.json.serialization.JsonParseException;
 import dev.webview.WebviewNative.BindCallback;
 import lombok.NonNull;
 
@@ -38,68 +27,6 @@ public class Webview implements Closeable, Runnable {
         // Extract & load the natives.
         WebviewNative.runSetup();
         N = Native.load("webview", WebviewNative.class);
-    }
-
-    /**
-     * Creates a Swing which will automatically initialize the webview when it's
-     * considered "drawable".
-     * 
-     * @param  debug    Whether or not to allow the opening of inspect
-     *                  element/devtools.
-     * @param  onCreate The callback handler for when the webview gets created.
-     * 
-     * @return          A component for direct embedding in Swing.
-     */
-    public static Component createAWT(boolean debug, @NonNull Consumer<Webview> onCreate) {
-        return new Canvas() {
-            private static final long serialVersionUID = 5199512256429931156L;
-
-            private boolean initialized = false;
-
-            private Webview webview;
-            private Dimension lastSize = null;
-
-            @Override
-            public void paint(Graphics g) {
-                Dimension size = this.getSize();
-
-                if (!size.equals(this.lastSize)) {
-                    this.lastSize = size;
-
-                    if (this.webview != null) {
-                        this.updateSize();
-                    }
-                }
-
-                if (!this.initialized) {
-                    this.initialized = true;
-
-                    new Thread(() -> {
-                        this.webview = new Webview(debug, this);
-
-                        this.updateSize();
-
-                        onCreate.accept(this.webview);
-                    }).start();
-                }
-            }
-
-            private void updateSize() {
-                int width = this.lastSize.width;
-                int height = this.lastSize.height;
-
-                // There is a random margin on Windows that isn't visible, so we must
-                // compensate.
-                // TODO figure out why this is caused.
-                if (Platform.osDistribution == OSDistribution.WINDOWS_NT) {
-                    width -= 16;
-                    height -= 39;
-                }
-
-                this.webview.setFixedSize(width, height);
-            }
-
-        };
     }
 
     /**
@@ -207,23 +134,17 @@ public class Webview implements Closeable, Runnable {
      *                   which is of type JsonElement (can be null). Exceptions are
      *                   automatically passed back to JavaScript.
      */
-    public void bind(@NonNull String name, @NonNull Function<JsonArray, JsonElement> handler) {
+    public void bind(@NonNull String name, @NonNull WebviewBindCallback handler) {
         N.webview_bind($pointer, name, new BindCallback() {
             @Override
             public void callback(long seq, String req, long arg) {
                 try {
-                    JsonArray arguments = Rson.DEFAULT.fromJson(req, JsonArray.class);
+                    @Nullable
+                    String result = handler.apply(req);
 
-                    try {
-                        @Nullable
-                        JsonElement result = handler.apply(arguments);
-
-                        N.webview_return($pointer, seq, false, Rson.DEFAULT.toJsonString(result));
-                    } catch (Exception e) {
-                        N.webview_return($pointer, seq, true, e.getMessage());
-                    }
-                } catch (JsonParseException e) {
-                    e.printStackTrace();
+                    N.webview_return($pointer, seq, false, result);
+                } catch (Exception e) {
+                    N.webview_return($pointer, seq, true, e.getMessage());
                 }
             }
         }, 0);
@@ -259,6 +180,13 @@ public class Webview implements Closeable, Runnable {
     public void run() {
         N.webview_run($pointer);
         N.webview_destroy($pointer);
+    }
+
+    public void runAsync() {
+        Thread t = new Thread(this);
+        t.setDaemon(false);
+        t.setName("Webview RunAsync Thread - #" + this.hashCode());
+        t.start();
     }
 
     /**

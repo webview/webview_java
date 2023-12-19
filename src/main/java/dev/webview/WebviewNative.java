@@ -3,15 +3,13 @@ package dev.webview;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.util.Arrays;
 
 import com.sun.jna.Callback;
 import com.sun.jna.Library;
 import com.sun.jna.ptr.PointerByReference;
 
-import co.casterlabs.commons.platform.Arch;
+import co.casterlabs.commons.io.streams.StreamUtil;
 import co.casterlabs.commons.platform.Platform;
-import co.casterlabs.rakurai.io.IOUtil;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 
@@ -24,41 +22,29 @@ public interface WebviewNative extends Library {
 
         switch (Platform.osDistribution) {
             case LINUX: {
-                if (!Arrays.asList(Arch.X86_64).contains(Platform.arch)) {
-                    throw new IllegalStateException("Unsupported arch: " + Platform.osDistribution + ":" + Platform.arch);
-                }
-
                 libraries = new String[] {
-                        "natives/" + Platform.arch + "/linux/libwebview.so"
+                        "natives/" + Platform.archTarget + "/linux/libwebview.so"
                 };
                 break;
             }
 
             case MACOS: {
-                if (!Arrays.asList(Arch.X86_64, Arch.AARCH64).contains(Platform.arch)) {
-                    throw new IllegalStateException("Unsupported arch: " + Platform.osDistribution + ":" + Platform.arch);
-                }
-
                 libraries = new String[] {
-                        "natives/" + Platform.arch + "/macos/libwebview.dylib"
+                        "natives/" + Platform.archTarget + "/macos/libwebview.dylib"
                 };
                 break;
             }
 
             case WINDOWS_NT: {
-                if (!Arrays.asList(Arch.X86, Arch.X86_64, Arch.AARCH64).contains(Platform.arch)) {
-                    throw new IllegalStateException("Unsupported arch: " + Platform.osDistribution + ":" + Platform.arch);
-                }
-
                 libraries = new String[] {
-                        "natives/" + Platform.arch + "/windows_nt/webview.dll",
-                        "natives/" + Platform.arch + "/windows_nt/WebView2Loader.dll"
+                        "natives/" + Platform.archTarget + "/windows_nt/webview.dll",
+                        "natives/" + Platform.archTarget + "/windows_nt/WebView2Loader.dll"
                 };
                 break;
             }
 
             default: {
-                throw new IllegalStateException("Unsupported platform: " + Platform.osDistribution + ":" + Platform.arch);
+                throw new IllegalStateException("Unsupported platform: " + Platform.osDistribution + ":" + Platform.archTarget);
             }
         }
 
@@ -69,7 +55,7 @@ public interface WebviewNative extends Library {
             if (!target.exists()) {
                 try {
                     InputStream in = WebviewNative.class.getResourceAsStream("/" + lib.toLowerCase());
-                    byte[] bytes = IOUtil.readInputStreamBytes(in);
+                    byte[] bytes = StreamUtil.toBytes(in);
                     Files.write(target.toPath(), bytes);
                 } catch (Exception e) {
                     System.err.println("Unable to extract native: " + lib);
