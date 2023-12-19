@@ -37,8 +37,8 @@ public interface WebviewNative extends Library {
 
             case WINDOWS_NT: {
                 libraries = new String[] {
-                        "dev/webview/natives/" + Platform.archTarget + "/windows_nt/webview.dll",
-                        "dev/webview/natives/" + Platform.archTarget + "/windows_nt/WebView2Loader.dll"
+                        "dev/webview/natives/" + Platform.archTarget + "/windows_nt/WebView2Loader.dll",
+                        "dev/webview/natives/" + Platform.archTarget + "/windows_nt/webview.dll"
                 };
                 break;
             }
@@ -51,16 +51,17 @@ public interface WebviewNative extends Library {
         // Extract all of the libs.
         for (String lib : libraries) {
             File target = new File(new File(lib).getName());
+            if (target.exists()) {
+                target.delete();
+            }
 
-            if (!target.exists()) {
-                try {
-                    InputStream in = WebviewNative.class.getResourceAsStream("/" + lib.toLowerCase());
-                    byte[] bytes = StreamUtil.toBytes(in);
-                    Files.write(target.toPath(), bytes);
-                } catch (Exception e) {
-                    System.err.println("Unable to extract native: " + lib);
-                    throw e;
-                }
+            try {
+                InputStream in = WebviewNative.class.getResourceAsStream("/" + lib.toLowerCase());
+                byte[] bytes = StreamUtil.toBytes(in);
+                Files.write(target.toPath(), bytes);
+            } catch (Exception e) {
+                System.err.println("Unable to extract native: " + lib);
+                throw e;
             }
         }
     }
