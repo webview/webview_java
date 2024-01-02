@@ -148,6 +148,14 @@ interface WebviewNative extends Library {
     long webview_get_window(long $pointer);
 
     /**
+     * Load raw HTML content onto the window.
+     *
+     * @param $pointer  The instance pointer of the webview
+     * @param html      The raw HTML string.
+     */
+    void webview_set_html(long $pointer, String html);
+
+    /**
      * Navigates to the given URL.
      * 
      * @param $pointer The instance pointer of the webview

@@ -17,3 +17,5 @@
 .DS_Store
 __MACOSX
 *.versionsBackup
+
+webview.dll
