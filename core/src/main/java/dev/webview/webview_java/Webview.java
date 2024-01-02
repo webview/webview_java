@@ -31,6 +31,8 @@ import static dev.webview.webview_java.WebviewNative.WV_HINT_NONE;
 
 import java.awt.Component;
 import java.io.Closeable;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -133,6 +135,7 @@ public class Webview implements Closeable, Runnable {
      */
     public void setInitScript(@NonNull String script) {
         N.webview_init($pointer, script);
+        this.initScript = script;
     }
 
     /**
@@ -172,8 +175,12 @@ public class Webview implements Closeable, Runnable {
                     }
 
                     N.webview_return($pointer, seq, false, result);
-                } catch (Exception e) {
-                    N.webview_return($pointer, seq, true, e.getMessage());
+                } catch (Throwable e) {
+                    e.printStackTrace();
+
+                    String exceptionJson = '"' + jsonEscape(getExceptionStack(e)) + '"';
+
+                    N.webview_return($pointer, seq, true, exceptionJson);
                 }
             }
         }, 0);
@@ -236,6 +243,87 @@ public class Webview implements Closeable, Runnable {
             length++;
         }
         return new String(bytes, 0, length);
+    }
+
+    private static String getExceptionStack(@NonNull Throwable e) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+
+        e.printStackTrace(pw);
+
+        String out = sw.toString();
+
+        pw.flush();
+        pw.close();
+        sw.flush();
+
+        return out
+            .substring(0, out.length() - 2)
+            .replace("\r", "");
+    }
+
+    private static String jsonEscape(@NonNull String input) {
+        char[] chars = input.toCharArray();
+
+        StringBuilder output = new StringBuilder();
+
+        for (int i = 0; i < chars.length; i++) {
+            char ch = chars[i];
+
+            switch (ch) {
+                case 0: {
+                    output.append("\\u0000");
+                    break;
+                }
+
+                case '\n': {
+                    output.append("\\n");
+                    break;
+                }
+
+                case '\t': {
+                    output.append("\\t");
+                    break;
+                }
+
+                case '\r': {
+                    output.append("\\r");
+                    break;
+                }
+
+                case '\\': {
+                    output.append("\\\\");
+                    break;
+                }
+
+                case '"': {
+                    output.append("\\\"");
+                    break;
+                }
+
+                case '\b': {
+                    output.append("\\b");
+                    break;
+                }
+
+                case '\f': {
+                    output.append("\\f");
+                    break;
+                }
+
+                default: {
+                    if (ch > 127) {
+                        output.append("\\u").append(String.format("%04x", (int) ch));
+                    } else {
+                        output.append(ch);
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        return output.toString();
     }
 
 }
