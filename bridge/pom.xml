@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>bridge</artifactId>
+
+	<parent>
+		<groupId>dev.webview.webview_java</groupId>
+		<artifactId>webview_java</artifactId>
+		<version>PLACEHOLDER</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<repositories>
+		<repository>
+			<id>casterlabs-maven</id>
+			<url>https://repo.casterlabs.co/maven</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>dev.webview.webview_java</groupId>
+			<artifactId>core</artifactId>
+			<version>${project.parent.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>co.casterlabs.commons</groupId>
+			<artifactId>async</artifactId>
+			<version>1.6.1</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>co.casterlabs</groupId>
+			<artifactId>rson</artifactId>
+			<version>1.17.9</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+</project>

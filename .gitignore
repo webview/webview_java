@@ -21,6 +21,9 @@ __MACOSX
 /core/webview.dll
 /core/libwebview.so
 /core/libwebview.dylib
+/bridge/webview.dll
+/bridge/libwebview.so
+/bridge/libwebview.dylib
 /webview.dll
 /libwebview.so
 /libwebview.dylib
