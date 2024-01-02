@@ -92,6 +92,10 @@ public class Webview implements Closeable, Runnable {
         return N.webview_get_window($pointer);
     }
 
+    public void setHTML(@Nullable String html) {
+        N.webview_set_html($pointer, html);
+    }
+
     public void loadURL(@Nullable String url) {
         if (url == null) {
             url = "about:blank";

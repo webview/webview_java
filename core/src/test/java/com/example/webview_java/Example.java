@@ -14,7 +14,19 @@ public class Example {
 
         wv.setTitle("My Webview App");
         wv.setSize(800, 600);
+
+        // load a URL
         wv.loadURL("https://google.com");
+
+        /*
+
+        Or, load raw html from a file with:
+        wv.setHTML("<h1>This is a test!<h1>");
+
+        String htmlContent = loadContentFromFile("index.html");
+        wv.setHTML(htmlContent);
+
+         */
 
         wv.run(); // Run the webview event loop, the webview is fully disposed when this returns.
         wv.close(); // Free any resources allocated.
