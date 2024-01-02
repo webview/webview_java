@@ -1,10 +1,33 @@
-package dev.webview;
+/**
+ * MIT LICENSE
+ *
+ * Copyright (c) 2024 Alex Bowles @ Casterlabs
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+package dev.webview.webview_java;
 
-import static dev.webview.WebviewNative.NULL_PTR;
-import static dev.webview.WebviewNative.WV_HINT_FIXED;
-import static dev.webview.WebviewNative.WV_HINT_MAX;
-import static dev.webview.WebviewNative.WV_HINT_MIN;
-import static dev.webview.WebviewNative.WV_HINT_NONE;
+import static dev.webview.webview_java.WebviewNative.NULL_PTR;
+import static dev.webview.webview_java.WebviewNative.WV_HINT_FIXED;
+import static dev.webview.webview_java.WebviewNative.WV_HINT_MAX;
+import static dev.webview.webview_java.WebviewNative.WV_HINT_MIN;
+import static dev.webview.webview_java.WebviewNative.WV_HINT_NONE;
 
 import java.awt.Component;
 import java.io.Closeable;
@@ -14,7 +37,7 @@ import org.jetbrains.annotations.Nullable;
 import com.sun.jna.Native;
 import com.sun.jna.ptr.PointerByReference;
 
-import dev.webview.WebviewNative.BindCallback;
+import dev.webview.webview_java.WebviewNative.BindCallback;
 import lombok.NonNull;
 
 public class Webview implements Closeable, Runnable {

@@ -6,14 +6,14 @@
 .settings/
 .project
 .classpath
-.metadata
+
+# VSCode
+.vscode/settings.json
 
 # Common
-target/
+*target/
+
+# Misc
 .DS_Store
 __MACOSX
-
-/webview*
-/libwebview*
-/WebView*
-src/main/java/dev/webview/Test.java
+*.versionsBackup

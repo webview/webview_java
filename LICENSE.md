@@ -1,9 +1,7 @@
 This project has two licenses, one for the Java-SDK and one for the parent project Webview.
 
 ## SDK
-MIT License
-
-Copyright (c) 2022 Casterlabs
+Copyright (c) 2024 Alex Bowles @ Casterlabs
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,8 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 ## Webview
-MIT License
-
 Copyright (c) 2017 Serge Zaitsev
 Copyright (c) 2022 Steffen André Langnes
 

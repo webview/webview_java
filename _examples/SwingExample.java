@@ -1,4 +1,6 @@
-package dev.webview;
+package com.example.webview;
+
+import dev.webview.webview_java.AWTWebview;
 
 import java.awt.BorderLayout;
 import java.awt.Component;

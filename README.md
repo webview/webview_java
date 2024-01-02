@@ -3,7 +3,7 @@
 The Java port of the [webview project](https://github.com/webview/webview). It uses JNA under the hood to interface with the webview library, auto extrating the required dll/dylib/so libraries for your current system.
 
 <div align="center">
-    <img alt="browser" src="demo.png" width="50%" />
+    <img alt="browser" src="_examples/demo.png" width="50%" />
     <br />
     <br />
 </div>
@@ -16,13 +16,9 @@ The Java port of the [webview project](https://github.com/webview/webview). It u
 
 ## Examples
 
-[Example](https://github.com/webview/webview_java/blob/main/Example.java)
-[Swing/AWT Example](https://github.com/webview/webview_java/blob/main/SwingExample.java)
+[Example](https://github.com/webview/webview_java/blob/main/_examples/Example.java)
+[Swing/AWT Example](https://github.com/webview/webview_java/blob/main/_examples/SwingExample.java)
 
 ## MacOS
 
 MacOS requires that all UI code be executed from the first thread, which means you will need to launch Java with `-XstartOnFirstThread`. This also means that the Webview AWT helper will NOT work at all.
-
-## TODO
-
-Build our own DLLs and whatnot, the current ones are copied from the Kotlin port.
