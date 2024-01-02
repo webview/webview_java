@@ -48,6 +48,8 @@ public class Webview implements Closeable, Runnable {
     @Deprecated
     public long $pointer;
 
+    private String initScript = "";
+
     static {
         // Extract & load the natives.
         WebviewNative.runSetup();
@@ -104,6 +106,7 @@ public class Webview implements Closeable, Runnable {
         }
 
         N.webview_navigate($pointer, url);
+        this.eval(initScript);
     }
 
     public void setTitle(@NonNull String title) {
