@@ -49,22 +49,22 @@ interface WebviewNative extends Library {
         switch (Platform.osDistribution) {
             case LINUX: {
                 libraries = new String[] {
-                        "dev/webview/webview_java/natives/" + Platform.archTarget + "/linux/libwebview.so"
+                        "/dev/webview/webview_java/natives/" + Platform.archTarget + "/linux/libwebview.so"
                 };
                 break;
             }
 
             case MACOS: {
                 libraries = new String[] {
-                        "dev/webview/webview_java/natives/" + Platform.archTarget + "/macos/libwebview.dylib"
+                        "/dev/webview/webview_java/natives/" + Platform.archTarget + "/macos/libwebview.dylib"
                 };
                 break;
             }
 
             case WINDOWS_NT: {
                 libraries = new String[] {
-//                        "dev/webview/webview_java/natives/" + Platform.archTarget + "/windows_nt/WebView2Loader.dll",
-                        "dev/webview/webview_java/natives/" + Platform.archTarget + "/windows_nt/webview.dll"
+//                        "/dev/webview/webview_java/natives/" + Platform.archTarget + "/windows_nt/WebView2Loader.dll",
+                        "/dev/webview/webview_java/natives/" + Platform.archTarget + "/windows_nt/webview.dll"
                 };
                 break;
             }
@@ -82,7 +82,7 @@ interface WebviewNative extends Library {
             }
 
             try {
-                InputStream in = WebviewNative.class.getResourceAsStream("/" + lib.toLowerCase());
+                InputStream in = WebviewNative.class.getResourceAsStream(lib.toLowerCase());
                 byte[] bytes = StreamUtil.toBytes(in);
                 Files.write(target.toPath(), bytes);
             } catch (Exception e) {
@@ -150,8 +150,8 @@ interface WebviewNative extends Library {
     /**
      * Load raw HTML content onto the window.
      *
-     * @param $pointer  The instance pointer of the webview
-     * @param html      The raw HTML string.
+     * @param $pointer The instance pointer of the webview
+     * @param html     The raw HTML string.
      */
     void webview_set_html(long $pointer, String html);
 
