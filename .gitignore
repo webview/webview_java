@@ -18,4 +18,9 @@
 __MACOSX
 *.versionsBackup
 
-webview.dll
+/core/webview.dll
+/core/libwebview.so
+/core/libwebview.dylib
+/webview.dll
+/libwebview.so
+/libwebview.dylib
