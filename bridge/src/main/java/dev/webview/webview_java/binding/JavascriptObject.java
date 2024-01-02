@@ -16,7 +16,6 @@ import co.casterlabs.rakurai.json.element.JsonArray;
 import co.casterlabs.rakurai.json.element.JsonElement;
 import co.casterlabs.rakurai.json.element.JsonString;
 import co.casterlabs.rakurai.json.serialization.JsonParseException;
-import dev.webview.webview_java.binding.util.ReflectionAccessHelper;
 import dev.webview.webview_java.binding.util.ReflectionFieldMutationListener;
 import lombok.Getter;
 import lombok.NonNull;
@@ -37,8 +36,6 @@ public abstract class JavascriptObject {
     public JavascriptObject() {
         for (Field field : this.getClass().getDeclaredFields()) {
             if (JavascriptObject.class.isAssignableFrom(field.getType())) {
-                ReflectionAccessHelper.makeAccessible(field);
-
                 this.subObjects.put(
                     field.getName(),
                     field
@@ -51,7 +48,6 @@ public abstract class JavascriptObject {
 
                 mapping.value = field;
                 mapping.valueAnnotation = annotation;
-                ReflectionAccessHelper.makeAccessible(field);
 
                 this.properties.put(name, mapping);
 
@@ -74,7 +70,6 @@ public abstract class JavascriptObject {
                 String name = annotation.value().isEmpty() ? method.getName() : annotation.value();
 
                 this.functions.put(name, new MethodMapping(this, method));
-                ReflectionAccessHelper.makeAccessible(method);
             } else if (method.isAnnotationPresent(JavascriptGetter.class)) {
                 JavascriptGetter annotation = method.getAnnotation(JavascriptGetter.class);
                 String name = annotation.value().isEmpty() ? method.getName() : annotation.value();
@@ -87,7 +82,6 @@ public abstract class JavascriptObject {
                 }
 
                 mapping.getter = method;
-                ReflectionAccessHelper.makeAccessible(method);
             } else if (method.isAnnotationPresent(JavascriptSetter.class)) {
                 JavascriptSetter annotation = method.getAnnotation(JavascriptSetter.class);
                 String name = annotation.value().isEmpty() ? method.getName() : annotation.value();
@@ -100,7 +94,6 @@ public abstract class JavascriptObject {
                 }
 
                 mapping.setter = method;
-                ReflectionAccessHelper.makeAccessible(method);
             }
         }
     }

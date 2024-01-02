@@ -30,8 +30,6 @@ public class ReflectionFieldMutationListener {
     }
 
     public ReflectionFieldMutationListener(@NonNull Field field, @Nullable WeakReference<Object> instance) {
-        ReflectionAccessHelper.makeAccessible(field);
-
         this.field = field;
         this.$inst = instance;
         this.lastHash = 0;
