@@ -1,13 +1,12 @@
-package com.example.webview;
-
-import dev.webview.webview_java.AWTWebview;
+package com.example.webview_java;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
+
+import dev.webview.webview_java.AWTWebview;
 
 public class SwingExample {
 

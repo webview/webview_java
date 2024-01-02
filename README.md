@@ -3,7 +3,7 @@
 The Java port of the [webview project](https://github.com/webview/webview). It uses JNA under the hood to interface with the webview library, auto extrating the required dll/dylib/so libraries for your current system.
 
 <div align="center">
-    <img alt="browser" src="_examples/demo.png" width="50%" />
+    <img alt="browser" src="demo.png" width="50%" />
     <br />
     <br />
 </div>
@@ -16,8 +16,8 @@ The Java port of the [webview project](https://github.com/webview/webview). It u
 
 ## Examples
 
-[Example](https://github.com/webview/webview_java/blob/main/_examples/Example.java)
-[Swing/AWT Example](https://github.com/webview/webview_java/blob/main/_examples/SwingExample.java)
+[Example](https://github.com/webview/webview_java/blob/main/core/src/test/java/com/example/webview_java/Example.java)
+[Swing/AWT Example](https://github.com/webview/webview_java/blob/main/test/java/com/example/webview_java/SwingExample.java)
 
 ## MacOS
 

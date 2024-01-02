@@ -1,4 +1,4 @@
-package com.example.webview;
+package com.example.webview_java;
 
 import dev.webview.webview_java.Webview;
 
@@ -16,8 +16,8 @@ public class Example {
         wv.setSize(800, 600);
         wv.loadURL("https://google.com");
 
-        // Run the webview event loop, the webview is fully disposed when this returns.
-        wv.run();
+        wv.run(); // Run the webview event loop, the webview is fully disposed when this returns.
+        wv.close(); // Free any resources allocated.
     }
 
 }
