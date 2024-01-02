@@ -23,16 +23,13 @@
  */
 package dev.webview.webview_java;
 
-import java.util.function.Function;
-
-public interface WebviewBindCallback extends Function<String, String> {
+public interface WebviewBindCallback {
 
     /**
      * @param  jsonArgs A JSON string containing an array of arguments.
      * 
      * @return          A JSON string to be deserialized in the Webview.
      */
-    @Override
-    public String apply(String jsonArgs);
+    public String apply(String jsonArgs) throws Throwable;
 
 }
