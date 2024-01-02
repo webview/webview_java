@@ -166,8 +166,10 @@ public class Webview implements Closeable, Runnable {
             @Override
             public void callback(long seq, String req, long arg) {
                 try {
-                    @Nullable
                     String result = handler.apply(req);
+                    if (result == null) {
+                        result = "null";
+                    }
 
                     N.webview_return($pointer, seq, false, result);
                 } catch (Exception e) {
