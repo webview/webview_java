@@ -1,6 +1,7 @@
 package com.example.webview_java;
 
 import dev.webview.webview_java.Webview;
+import dev.webview.webview_java.binding.JavascriptFunction;
 import dev.webview.webview_java.binding.JavascriptObject;
 import dev.webview.webview_java.binding.JavascriptValue;
 import dev.webview.webview_java.binding.WebviewBridge;
@@ -25,6 +26,11 @@ public class BridgeExample {
 
         @JavascriptValue(watchForMutate = true)
         public int variable = 123;
+
+        @JavascriptFunction
+        public void doSomething(int number) {
+            System.out.println(number);
+        }
 
     }
 
