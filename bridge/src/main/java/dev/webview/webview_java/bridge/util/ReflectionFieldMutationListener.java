@@ -1,4 +1,4 @@
-package dev.webview.webview_java.binding.util;
+package dev.webview.webview_java.bridge.util;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;

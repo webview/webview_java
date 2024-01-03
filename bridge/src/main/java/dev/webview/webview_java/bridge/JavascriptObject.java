@@ -16,7 +16,7 @@ import co.casterlabs.rakurai.json.element.JsonArray;
 import co.casterlabs.rakurai.json.element.JsonElement;
 import co.casterlabs.rakurai.json.element.JsonString;
 import co.casterlabs.rakurai.json.serialization.JsonParseException;
-import dev.webview.webview_java.binding.util.ReflectionFieldMutationListener;
+import dev.webview.webview_java.bridge.util.ReflectionFieldMutationListener;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.SneakyThrows;
