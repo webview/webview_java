@@ -86,6 +86,8 @@ interface WebviewNative extends Library {
                 byte[] bytes = StreamUtil.toBytes(in);
                 Files.write(target.toPath(), bytes);
             } catch (Exception e) {
+                if (e.getMessage().contains("used by another")) continue; // Ignore.
+
                 System.err.println("Unable to extract native: " + lib);
                 throw e;
             }
