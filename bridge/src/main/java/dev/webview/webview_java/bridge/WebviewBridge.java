@@ -33,9 +33,6 @@ public class WebviewBridge {
     public WebviewBridge(@NonNull Webview webview) {
         this.webview = webview;
 
-        // TODO rework emission to be more direct.
-        // The return values here WORK.
-
         this.webview.bind("__bridgeInternal", (rawArgs) -> {
             JsonArray args = Rson.DEFAULT.fromJson(rawArgs, JsonArray.class);
 
