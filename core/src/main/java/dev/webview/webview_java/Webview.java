@@ -145,14 +145,16 @@ public class Webview implements Closeable, Runnable {
      * @param script
      */
     public void eval(@NonNull String script) {
-        N.webview_eval(
-            $pointer,
-            String.format(
-                "try { %s } catch (e) { console.error('[Webview]', 'An error occurred whilst evaluating script:', %s, e); }",
-                script,
-                '"' + WebviewUtil.jsonEscape(script) + '"'
-            )
-        );
+        this.dispatch(() -> {
+            N.webview_eval(
+                $pointer,
+                String.format(
+                    "try { %s } catch (e) { console.error('[Webview]', 'An error occurred whilst evaluating script:', %s, e); }",
+                    script,
+                    '"' + WebviewUtil.jsonEscape(script) + '"'
+                )
+            );
+        });
     }
 
     /**
