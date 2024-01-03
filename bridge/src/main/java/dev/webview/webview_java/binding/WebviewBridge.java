@@ -88,7 +88,6 @@ public class WebviewBridge {
     }
 
     public void emit(@NonNull String type, @NonNull JsonElement data) {
-        System.out.println(type);
         this.webview.eval(
             String.format(
                 "window.Bridge.__internal.broadcast(%s,%s);",
