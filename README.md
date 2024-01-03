@@ -1,6 +1,6 @@
 # Webview
 
-The Java port of the [webview project](https://github.com/webview/webview). It uses JNA under the hood to interface with the webview library, auto extrating the required dll/dylib/so libraries for your current system.
+The Java port of the [webview project](https://github.com/webview/webview). It uses JNA and auto-extracts the required dll/dylib/so libraries for your current system.
 
 <div align="center">
     <img alt="browser" src="demo.png" width="50%" />
@@ -12,6 +12,35 @@ The Java port of the [webview project](https://github.com/webview/webview). It u
 
 [Example](https://github.com/webview/webview_java/blob/main/core/src/test/java/com/example/webview_java/Example.java)  
 [Bridge Example](https://github.com/webview/webview_java/blob/main/bridge/src/test/java/com/example/webview_java/BridgeExample.java)
+
+## Supported Platforms
+
+<table width=300>
+    <tr>
+        <td align="right" width=64>
+            <img src="https://simpleicons.org/icons/linux.svg" title="Linux" width="32" height="32">
+        </td>
+        <td align="left">
+            x86_64
+        </td>
+    </tr>
+    <tr>
+        <td align="right" width=64>
+            <img src="https://simpleicons.org/icons/windows.svg" title="Windows" width="32" height="32">
+        </td>
+        <td align="left">
+            x86_64
+        </td>
+    </tr>
+    <tr>
+        <td align="right" width=64>
+            <img src="https://simpleicons.org/icons/apple.svg" title="macOS" width="32" height="32">
+        </td>
+        <td align="left">
+            aarch64, x86_64
+        </td>
+    </tr>
+</table>
 
 ### macOS
 
