@@ -41,7 +41,6 @@ if (!window.Bridge) {
             },
 
             defineObject(path, id) {
-                console.debug("[Webview-Bridge]", "Defining IPC object:", path, id);
                 path = path.split(".");
                 const propertyName = path.pop();
 
@@ -129,7 +128,6 @@ if (!window.Bridge) {
             },
 
             broadcast(type, data) {
-                console.log(type, data)
                 // Broadcast under a wildcard.
                 const wildCardCallbacks = listeners["*"];
                 if (wildCardCallbacks) {
