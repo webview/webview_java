@@ -76,10 +76,12 @@ interface WebviewNative extends Library {
 
         // Extract all of the libs.
         for (String lib : libraries) {
-            File target = new File(new File(lib).getName());
-            if (target.exists()) {
-                target.delete();
-            }
+            File target = new File(
+                System.getProperty("java.io.tmpdir"),
+                String.format("webview_java-%f-%s", Math.random(), new File(lib).getName())
+            );
+
+            target.deleteOnExit();
 
             try {
                 InputStream in = WebviewNative.class.getResourceAsStream(lib.toLowerCase());
