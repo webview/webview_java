@@ -17,6 +17,10 @@ public class BridgeExample {
 
         bridge.defineObject("Test", new TestObject());
 
+        wv.bind("test", (_unused) -> {
+            return "junk";
+        });
+
         wv.setTitle("My Webview App");
         wv.setSize(800, 600);
         wv.setHTML(

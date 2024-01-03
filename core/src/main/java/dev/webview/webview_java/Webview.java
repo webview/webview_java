@@ -96,6 +96,7 @@ public class Webview implements Closeable, Runnable {
 
     public void setHTML(@Nullable String html) {
         N.webview_set_html($pointer, html);
+        this.eval(this.initScript);
     }
 
     public void loadURL(@Nullable String url) {
@@ -104,7 +105,7 @@ public class Webview implements Closeable, Runnable {
         }
 
         N.webview_navigate($pointer, url);
-        this.eval(initScript);
+        this.eval(this.initScript);
     }
 
     public void setTitle(@NonNull String title) {
