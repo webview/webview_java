@@ -15,7 +15,7 @@ import lombok.SneakyThrows;
  * comparing it against a known value.
  */
 public class ReflectionFieldMutationListener {
-    private static final int POLL_INTERVAL = 500;
+    private static final int POLL_INTERVAL = 25;
     private static final int NULL_V = 0;
 
     private Field field;
