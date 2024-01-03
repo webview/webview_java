@@ -1,10 +1,10 @@
 package com.example.webview_java;
 
 import dev.webview.webview_java.Webview;
-import dev.webview.webview_java.binding.JavascriptFunction;
-import dev.webview.webview_java.binding.JavascriptObject;
-import dev.webview.webview_java.binding.JavascriptValue;
-import dev.webview.webview_java.binding.WebviewBridge;
+import dev.webview.webview_java.bridge.JavascriptFunction;
+import dev.webview.webview_java.bridge.JavascriptObject;
+import dev.webview.webview_java.bridge.JavascriptValue;
+import dev.webview.webview_java.bridge.WebviewBridge;
 
 public class BridgeExample {
 

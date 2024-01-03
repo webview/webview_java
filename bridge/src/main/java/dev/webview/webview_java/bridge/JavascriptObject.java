@@ -1,4 +1,4 @@
-package dev.webview.webview_java.binding;
+package dev.webview.webview_java.bridge;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

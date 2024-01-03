@@ -1,4 +1,4 @@
-package dev.webview.webview_java.binding;
+package dev.webview.webview_java.bridge;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -21,7 +21,7 @@ public class WebviewBridge {
     private static String bridgeScript = "";
     static {
         try {
-            bridgeScript = StreamUtil.toString(WebviewBridge.class.getResourceAsStream("/dev/webview/webview_java/binding/BridgeScript.js"), StandardCharsets.UTF_8);
+            bridgeScript = StreamUtil.toString(WebviewBridge.class.getResourceAsStream("/dev/webview/webview_java/bridge/BridgeScript.js"), StandardCharsets.UTF_8);
         } catch (IOException e) {
             e.printStackTrace();
         }
