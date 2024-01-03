@@ -98,12 +98,12 @@ public abstract class JavascriptObject {
         }
     }
 
-    void init(String name, WebviewBridge bridge) {
-        this.init(name, bridge, null);
+    List<String> getInitLines(String name, WebviewBridge bridge) {
+        return this.getInitLines(name, bridge, null);
     }
 
     @SneakyThrows
-    private void init(String name, WebviewBridge bridge, @Nullable JavascriptObject parent) {
+    private List<String> getInitLines(String name, WebviewBridge bridge, @Nullable JavascriptObject parent) {
         this.bridge = bridge;
         this.name = name;
 
@@ -129,15 +129,17 @@ public abstract class JavascriptObject {
             );
         }
 
-        bridge.webview.eval(String.join("\n", linesToExecute));
-
         for (Map.Entry<String, Field> entry : this.subObjects.entrySet()) {
             JavascriptObject value = (JavascriptObject) entry.getValue().get(this);
 
             if ((value != null) && (value != parent)) {
-                value.init(name + "." + entry.getKey(), bridge, this);
+                linesToExecute.addAll(
+                    value.getInitLines(name + "." + entry.getKey(), bridge, this)
+                );
             }
         }
+
+        return linesToExecute;
     }
 
     @Nullable
