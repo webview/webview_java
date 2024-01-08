@@ -11,12 +11,16 @@ public class Example {
         wv.bind("echo", (arguments) -> {
             return arguments;
         });
+        wv.bind("echoo", (arguments) -> {
+            return "['echoo_test']";
+        });
 
         wv.setTitle("My Webview App");
         wv.setSize(800, 600);
 
         // load a URL
-        wv.loadURL("https://google.com");
+        //wv.loadURL("https://google.com");
+        wv.loadURL(null);
 
         /*
 
