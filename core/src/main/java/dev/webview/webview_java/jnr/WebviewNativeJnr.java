@@ -21,26 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.webview.webview_java;
+package dev.webview.webview_java.jnr;
+
+import co.casterlabs.commons.io.streams.StreamUtil;
+import co.casterlabs.commons.platform.Platform;
+import jnr.ffi.Pointer;
+import jnr.ffi.Runtime;
+import jnr.ffi.Struct;
+import jnr.ffi.byref.NativeLongByReference;
+import jnr.ffi.provider.NullMemoryIO;
+import lombok.NonNull;
+import lombok.SneakyThrows;
 
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.util.Arrays;
-import java.util.List;
 
-import com.sun.jna.Callback;
-import com.sun.jna.Library;
-import com.sun.jna.Structure;
-import com.sun.jna.ptr.PointerByReference;
-
-import co.casterlabs.commons.io.streams.StreamUtil;
-import co.casterlabs.commons.platform.Platform;
-import lombok.NonNull;
-import lombok.SneakyThrows;
-
-public interface WebviewNative extends Library {
-    static final PointerByReference NULL_PTR = null;
+/** public necessary */
+public interface WebviewNativeJnr {
+    Pointer NULL_PTR = null;
+//    Pointer NULL_PTR = new NullMemoryIO(Runtime.getSystemRuntime());
 
     @SneakyThrows
     static void runSetup() {
@@ -82,7 +82,7 @@ public interface WebviewNative extends Library {
             }
 
             try {
-                InputStream in = WebviewNative.class.getResourceAsStream(lib.toLowerCase());
+                InputStream in = WebviewNativeJnr.class.getResourceAsStream(lib.toLowerCase());
                 byte[] bytes = StreamUtil.toBytes(in);
                 Files.write(target.toPath(), bytes);
             } catch (Exception e) {
@@ -94,37 +94,11 @@ public interface WebviewNative extends Library {
         }
     }
 
-    static final int WV_HINT_NONE = 0;
-    static final int WV_HINT_MIN = 1;
-    static final int WV_HINT_MAX = 2;
-    static final int WV_HINT_FIXED = 3;
+    int WV_HINT_NONE = 0;
+    int WV_HINT_MIN = 1;
+    int WV_HINT_MAX = 2;
+    int WV_HINT_FIXED = 3;
 
-    /**
-     * Used in {@link webview_bind}
-     */
-    static interface BindCallback extends Callback {
-
-        /**
-         * @param seq The request id, used in {@link webview_return}
-         * @param req The javascript arguments converted to a json array (string)
-         * @param arg Unused
-         */
-        void callback(long seq, String req, long arg);
-
-    }
-
-    /**
-     * Used in {@link webview_dispatch}
-     */
-    static interface DispatchCallback extends Callback {
-
-        /**
-         * @param $pointer The pointer of the webview
-         * @param arg      Unused
-         */
-        void callback(long $pointer, long arg);
-
-    }
 
     /**
      * Creates a new webview instance. If debug is true - developer tools will be
@@ -137,7 +111,7 @@ public interface WebviewNative extends Library {
      * @param $window A pointer to a native window handle, for embedding the webview
      *                in a window. (Either a GtkWindow, NSWindow, or HWND pointer)
      */
-    long webview_create(boolean debug, PointerByReference window);
+    long webview_create(boolean debug, Pointer $window);
 
     /**
      * @return            a native window handle pointer.
@@ -163,7 +137,7 @@ public interface WebviewNative extends Library {
      * @param $pointer The instance pointer of the webview
      * @param url      The target url, can be a data uri.
      */
-    void webview_navigate(long $pointer, String url);
+    void webview_navigate(NativeLongByReference $pointer, String url);
 
     /**
      * Sets the title of the webview window.
@@ -248,7 +222,7 @@ public interface WebviewNative extends Library {
      * must be provided to help internal RPC engine match requests with responses.
      * 
      * @param $pointer The instance pointer of the webview
-     * @param name     The name of the callback
+     * @param seq     The name of the callback
      * @param isError  Whether or not `result` should be thrown as an exception
      * @param result   The result (in json)
      */
@@ -267,9 +241,9 @@ public interface WebviewNative extends Library {
     /**
      * Returns the version info.
      */
-    VersionInfoStruct webview_version();
+    //VersionInfoStruct webview_version();
 
-    static class VersionInfoStruct extends Structure {
+    public static class VersionInfoStruct extends Struct {
         public int major; // This is technically in a sub-struct.
         public int minor; // This is technically in a sub-struct.
         public int patch; // This is technically in a sub-struct.
@@ -277,10 +251,23 @@ public interface WebviewNative extends Library {
         public byte[] pre_release = new byte[48];
         public byte[] build_metadata = new byte[48];
 
-        @Override
-        protected List<String> getFieldOrder() {
-            return Arrays.asList("major", "minor", "patch", "version_number", "pre_release", "build_metadata");
+        protected VersionInfoStruct(Runtime runtime) {
+            super(runtime);
         }
+
+        protected VersionInfoStruct(Runtime runtime, Alignment alignment) {
+            super(runtime, alignment);
+        }
+
+        protected VersionInfoStruct(Runtime runtime, Struct enclosing) {
+            super(runtime, enclosing);
+        }
+
+        protected VersionInfoStruct(Runtime runtime, boolean isUnion) {
+            super(runtime, isUnion);
+        }
+
+//            return Arrays.asList("major", "minor", "patch", "version_number", "pre_release", "build_metadata");
     }
 
 }

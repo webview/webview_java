@@ -21,19 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.webview.webview_java;
+package dev.webview.webview_java.memory;
 
 import com.sun.jna.Memory;
 import com.sun.jna.Native;
 import com.sun.jna.ptr.PointerByReference;
-import dev.webview.webview_java.WebviewNative.*;
+import dev.webview.webview_java.WebviewBindCallback;
+import dev.webview.webview_java.memory.WebviewNativeMemory;
+import dev.webview.webview_java.WebviewUtil;
 import lombok.NonNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 import java.io.Closeable;
 
-import static dev.webview.webview_java.WebviewNative.*;
+import static dev.webview.webview_java.memory.WebviewNativeMemory.*;
 
 public class WebviewMemory implements Closeable, Runnable {
     private static final WebviewNativeMemory N;
@@ -45,7 +47,7 @@ public class WebviewMemory implements Closeable, Runnable {
 
     static {
         // Extract & load the natives.
-        WebviewNative.runSetup();
+        WebviewNativeMemory.runSetup();
         N = Native.load("webview", WebviewNativeMemory.class);
     }
 

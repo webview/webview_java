@@ -28,9 +28,9 @@ import java.io.StringWriter;
 
 import lombok.NonNull;
 
-class WebviewUtil {
+public class WebviewUtil {
 
-    static String getExceptionStack(@NonNull Throwable e) {
+    public static String getExceptionStack(@NonNull Throwable e) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
 
@@ -47,7 +47,7 @@ class WebviewUtil {
             .replace("\r", "");
     }
 
-    static String jsonEscape(@NonNull String input) {
+    public static String jsonEscape(@NonNull String input) {
         char[] chars = input.toCharArray();
 
         StringBuilder output = new StringBuilder();

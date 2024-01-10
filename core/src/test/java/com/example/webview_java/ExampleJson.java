@@ -3,6 +3,7 @@ package com.example.webview_java;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import dev.webview.webview_java.Webview;
+import dev.webview.webview_java.jnr.WebviewJnr;
 
 import java.util.Random;
 
@@ -12,6 +13,7 @@ public class ExampleJson {
 
     public static void main(String[] args) {
         Webview wv = new Webview(true); // Can optionally be created with an AWT component to be painted on.
+//        WebviewJnr wv = new WebviewJnr(true);
 
         // Calling `await echo(1,2,3)` will return `[1,2,3]`
         wv.bind("a", (arguments) -> {
