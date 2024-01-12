@@ -139,7 +139,7 @@ public class Webview implements Closeable, Runnable {
                 + "}"
                 + "})();",
             script,
-            '"' + WebviewUtil.jsonEscape(script) + '"'
+            '"' + _WebviewUtil.jsonEscape(script) + '"'
         );
 
         N.webview_init($pointer, script);
@@ -164,7 +164,7 @@ public class Webview implements Closeable, Runnable {
                         + "}"
                         + "})();",
                     script,
-                    '"' + WebviewUtil.jsonEscape(script) + '"'
+                    '"' + _WebviewUtil.jsonEscape(script) + '"'
                 )
             );
         });
@@ -201,7 +201,7 @@ public class Webview implements Closeable, Runnable {
                 } catch (Throwable e) {
                     e.printStackTrace();
 
-                    String exceptionJson = '"' + WebviewUtil.jsonEscape(WebviewUtil.getExceptionStack(e)) + '"';
+                    String exceptionJson = '"' + _WebviewUtil.jsonEscape(_WebviewUtil.getExceptionStack(e)) + '"';
 
                     N.webview_return($pointer, seq, true, exceptionJson);
                 }
@@ -265,7 +265,7 @@ public class Webview implements Closeable, Runnable {
     public void setDarkAppearance(boolean shouldAppearDark) {
         switch (Platform.osFamily) {
             case WINDOWS:
-                WindowsHelper.setWindowAppearance(this, shouldAppearDark);
+                _WindowsHelper.setWindowAppearance(this, shouldAppearDark);
                 break;
 
             default: // NOOP

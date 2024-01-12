@@ -9,7 +9,7 @@ import com.sun.jna.platform.win32.WinDef.BOOLByReference;
 import com.sun.jna.platform.win32.WinDef.HWND;
 import com.sun.jna.ptr.PointerByReference;
 
-class WindowsHelper {
+class _WindowsHelper {
 
     @SuppressWarnings("deprecation")
     static void setWindowAppearance(Webview webview, boolean shouldBeDark) {
