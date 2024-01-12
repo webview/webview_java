@@ -31,6 +31,7 @@ import java.util.List;
 
 import com.sun.jna.Callback;
 import com.sun.jna.Library;
+import com.sun.jna.Native;
 import com.sun.jna.Structure;
 import com.sun.jna.ptr.PointerByReference;
 
@@ -40,10 +41,10 @@ import lombok.NonNull;
 import lombok.SneakyThrows;
 
 interface WebviewNative extends Library {
-    static final PointerByReference NULL_PTR = null;
+    static final WebviewNative N = runSetup();
 
     @SneakyThrows
-    static void runSetup() {
+    private static WebviewNative runSetup() {
         String[] libraries = null;
 
         switch (Platform.osDistribution) {
@@ -92,6 +93,8 @@ interface WebviewNative extends Library {
                 throw e;
             }
         }
+
+        return Native.load("webview", WebviewNative.class);
     }
 
     static final int WV_HINT_NONE = 0;

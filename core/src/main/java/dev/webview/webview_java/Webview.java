@@ -23,7 +23,7 @@
  */
 package dev.webview.webview_java;
 
-import static dev.webview.webview_java.WebviewNative.NULL_PTR;
+import static dev.webview.webview_java.WebviewNative.N;
 import static dev.webview.webview_java.WebviewNative.WV_HINT_FIXED;
 import static dev.webview.webview_java.WebviewNative.WV_HINT_MAX;
 import static dev.webview.webview_java.WebviewNative.WV_HINT_MIN;
@@ -41,18 +41,11 @@ import dev.webview.webview_java.WebviewNative.BindCallback;
 import lombok.NonNull;
 
 public class Webview implements Closeable, Runnable {
-    private static final WebviewNative N;
 
     @Deprecated
     public long $pointer;
 
     private String initScript = "";
-
-    static {
-        // Extract & load the natives.
-        WebviewNative.runSetup();
-        N = Native.load("webview", WebviewNative.class);
-    }
 
     /**
      * Creates a new Webview.
@@ -60,7 +53,7 @@ public class Webview implements Closeable, Runnable {
      * @param debug Enables devtools/inspect element if true.
      */
     public Webview(boolean debug) {
-        this(debug, NULL_PTR);
+        this(debug, (PointerByReference) null);
     }
 
     /**
@@ -247,6 +240,12 @@ public class Webview implements Closeable, Runnable {
         N.webview_destroy($pointer);
     }
 
+    /**
+     * Executes the webview event loop asynchronously until the user presses "X" on
+     * the window.
+     * 
+     * @see #close()
+     */
     public void runAsync() {
         Thread t = new Thread(this);
         t.setDaemon(false);
