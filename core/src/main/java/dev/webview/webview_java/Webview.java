@@ -37,6 +37,7 @@ import org.jetbrains.annotations.Nullable;
 import com.sun.jna.Native;
 import com.sun.jna.ptr.PointerByReference;
 
+import co.casterlabs.commons.platform.Platform;
 import dev.webview.webview_java.WebviewNative.BindCallback;
 import lombok.NonNull;
 
@@ -259,6 +260,17 @@ public class Webview implements Closeable, Runnable {
     @Override
     public void close() {
         N.webview_terminate($pointer);
+    }
+
+    public void setDarkAppearance(boolean shouldAppearDark) {
+        switch (Platform.osFamily) {
+            case WINDOWS:
+                WindowsHelper.setWindowAppearance(this, shouldAppearDark);
+                break;
+
+            default: // NOOP
+                break;
+        }
     }
 
     public static String getVersion() {

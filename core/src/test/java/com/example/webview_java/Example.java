@@ -12,6 +12,12 @@ public class Example {
             return arguments;
         });
 
+        // Calling `await echo(1,2,3)` will return `[1,2,3]`
+        wv.bind("setDarkAppearance", (arguments) -> {
+            wv.setDarkAppearance(arguments.contains("true")); // Use an actual Json parser. This is just a dirty example.
+            return null;
+        });
+
         wv.setTitle("My Webview App");
         wv.setSize(800, 600);
 
@@ -19,13 +25,13 @@ public class Example {
         wv.loadURL("https://google.com");
 
         /*
-
+        
         Or, load raw html from a file with:
         wv.setHTML("<h1>This is a test!<h1>");
-
+        
         String htmlContent = loadContentFromFile("index.html");
         wv.setHTML(htmlContent);
-
+        
          */
 
         wv.run(); // Run the webview event loop, the webview is fully disposed when this returns.
