@@ -49,7 +49,7 @@ class _WindowsHelper {
         User32.N.InvalidateRect(hwnd, null, 0); // Repaint
     }
 
-    static interface DWM extends Library {
+    private static interface DWM extends Library {
         static final DWM N = Native.load("dwmapi", DWM.class);
 
         static final int DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1 = 19;
@@ -59,7 +59,7 @@ class _WindowsHelper {
 
     }
 
-    static interface User32 extends Library {
+    private static interface User32 extends Library {
         static final User32 N = Native.load("user32", User32.class);
 
         int InvalidateRect(HWND hwnd, PointerByReference rect, int erase);
