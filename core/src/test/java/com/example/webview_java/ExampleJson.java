@@ -12,8 +12,8 @@ public class ExampleJson {
     private static final Random random = new Random();
 
     public static void main(String[] args) {
-        Webview wv = new Webview(true); // Can optionally be created with an AWT component to be painted on.
-//        WebviewJnr wv = new WebviewJnr(true);
+//        Webview wv = new Webview(true); // Can optionally be created with an AWT component to be painted on.
+        WebviewJnr wv = new WebviewJnr(true);
 
         // Calling `await echo(1,2,3)` will return `[1,2,3]`
         wv.bind("a", (arguments) -> {

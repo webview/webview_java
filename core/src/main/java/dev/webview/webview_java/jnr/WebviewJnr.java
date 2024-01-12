@@ -76,6 +76,7 @@ public class WebviewJnr implements Closeable, Runnable {
      */
     @Deprecated
     public WebviewJnr(boolean debug, @Nullable Pointer windowPointer) {
+        // The Pointer is wrong!!!
         $pointer = N.webview_create(debug, windowPointer);
 
         this.loadURL(null);
