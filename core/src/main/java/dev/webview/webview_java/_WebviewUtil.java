@@ -28,7 +28,7 @@ import java.io.StringWriter;
 
 import lombok.NonNull;
 
-public class WebviewUtil {
+class _WebviewUtil {
 
     public static String getExceptionStack(@NonNull Throwable e) {
         StringWriter sw = new StringWriter();

@@ -28,7 +28,7 @@ import com.sun.jna.Native;
 import com.sun.jna.ptr.PointerByReference;
 import dev.webview.webview_java.WebviewBindCallback;
 import dev.webview.webview_java.memory.WebviewNativeMemory;
-import dev.webview.webview_java.WebviewUtil;
+import dev.webview.webview_java.memory.WebviewUtil;
 import lombok.NonNull;
 import org.jetbrains.annotations.Nullable;
 

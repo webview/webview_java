@@ -23,7 +23,7 @@
  */
 package dev.webview.webview_java;
 
-import static dev.webview.webview_java.WebviewNative.NULL_PTR;
+import static dev.webview.webview_java.WebviewNative.N;
 import static dev.webview.webview_java.WebviewNative.WV_HINT_FIXED;
 import static dev.webview.webview_java.WebviewNative.WV_HINT_MAX;
 import static dev.webview.webview_java.WebviewNative.WV_HINT_MIN;
@@ -37,22 +37,16 @@ import org.jetbrains.annotations.Nullable;
 import com.sun.jna.Native;
 import com.sun.jna.ptr.PointerByReference;
 
+import co.casterlabs.commons.platform.Platform;
 import dev.webview.webview_java.WebviewNative.BindCallback;
 import lombok.NonNull;
 
 public class Webview implements Closeable, Runnable {
-    private static final WebviewNative N;
 
     @Deprecated
     public long $pointer;
 
     private String initScript = "";
-
-    static {
-        // Extract & load the natives.
-        WebviewNative.runSetup();
-        N = Native.load("webview", WebviewNative.class);
-    }
 
     /**
      * Creates a new Webview.
@@ -60,7 +54,7 @@ public class Webview implements Closeable, Runnable {
      * @param debug Enables devtools/inspect element if true.
      */
     public Webview(boolean debug) {
-        this(debug, NULL_PTR);
+        this(debug, (PointerByReference) null);
     }
 
     /**
@@ -145,7 +139,7 @@ public class Webview implements Closeable, Runnable {
                 + "}"
                 + "})();",
             script,
-            '"' + WebviewUtil.jsonEscape(script) + '"'
+            '"' + _WebviewUtil.jsonEscape(script) + '"'
         );
 
         N.webview_init($pointer, script);
@@ -170,7 +164,7 @@ public class Webview implements Closeable, Runnable {
                         + "}"
                         + "})();",
                     script,
-                    '"' + WebviewUtil.jsonEscape(script) + '"'
+                    '"' + _WebviewUtil.jsonEscape(script) + '"'
                 )
             );
         });
@@ -207,7 +201,7 @@ public class Webview implements Closeable, Runnable {
                 } catch (Throwable e) {
                     e.printStackTrace();
 
-                    String exceptionJson = '"' + WebviewUtil.jsonEscape(WebviewUtil.getExceptionStack(e)) + '"';
+                    String exceptionJson = '"' + _WebviewUtil.jsonEscape(_WebviewUtil.getExceptionStack(e)) + '"';
 
                     N.webview_return($pointer, seq, true, exceptionJson);
                 }
@@ -247,6 +241,12 @@ public class Webview implements Closeable, Runnable {
         N.webview_destroy($pointer);
     }
 
+    /**
+     * Executes the webview event loop asynchronously until the user presses "X" on
+     * the window.
+     * 
+     * @see #close()
+     */
     public void runAsync() {
         Thread t = new Thread(this);
         t.setDaemon(false);
@@ -260,6 +260,17 @@ public class Webview implements Closeable, Runnable {
     @Override
     public void close() {
         N.webview_terminate($pointer);
+    }
+
+    public void setDarkAppearance(boolean shouldAppearDark) {
+        switch (Platform.osFamily) {
+            case WINDOWS:
+                _WindowsHelper.setWindowAppearance(this, shouldAppearDark);
+                break;
+
+            default: // NOOP
+                break;
+        }
     }
 
     public static String getVersion() {

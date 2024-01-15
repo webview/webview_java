@@ -24,7 +24,7 @@
 package dev.webview.webview_java.jnr;
 
 import dev.webview.webview_java.WebviewBindCallback;
-import dev.webview.webview_java.WebviewUtil;
+import dev.webview.webview_java.jnr.WebviewUtil;
 import jnr.ffi.LibraryLoader;
 import jnr.ffi.Pointer;
 import jnr.ffi.byref.NativeLongByReference;
