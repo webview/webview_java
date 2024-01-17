@@ -26,6 +26,7 @@ package dev.webview.webview_java.bridge;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -66,6 +67,8 @@ public abstract class JavascriptObject {
     @SneakyThrows
     public JavascriptObject() {
         for (Field field : this.getClass().getDeclaredFields()) {
+            if (Modifier.isStatic(field.getModifiers())) continue;
+
             if (JavascriptObject.class.isAssignableFrom(field.getType())) {
                 this.subObjects.put(
                     field.getName(),
@@ -96,6 +99,8 @@ public abstract class JavascriptObject {
         }
 
         for (Method method : this.getClass().getDeclaredMethods()) {
+            if (Modifier.isStatic(method.getModifiers())) continue;
+
             if (method.isAnnotationPresent(JavascriptFunction.class)) {
                 JavascriptFunction annotation = method.getAnnotation(JavascriptFunction.class);
                 String name = annotation.value().isEmpty() ? method.getName() : annotation.value();
