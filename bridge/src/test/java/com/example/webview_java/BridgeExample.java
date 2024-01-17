@@ -51,6 +51,8 @@ public class BridgeExample {
 
     public static class TestObject extends JavascriptObject {
 
+        public final NestedTestObject nested = new NestedTestObject();
+
         @JavascriptValue(allowSet = false, watchForMutate = true)
         public long nanoTime = -1;
         {
@@ -67,6 +69,15 @@ public class BridgeExample {
         @JavascriptFunction
         public void ringBell() {
             Toolkit.getDefaultToolkit().beep();
+        }
+
+    }
+
+    public static class NestedTestObject extends JavascriptObject {
+
+        @JavascriptFunction
+        public void test() {
+            System.out.println("Test");
         }
 
     }
