@@ -62,6 +62,16 @@ public class Webview implements Closeable, Runnable {
     public Webview(boolean debug) {
         this(debug, NULL_PTR);
     }
+    /**
+     * Creates a new Webview.
+     *
+     * @param debug Enables devtools/inspect element if true.
+     * @param width preset - width
+     * @param height preset - height
+     */
+    public Webview(boolean debug, int width, int height) {
+        this(debug, NULL_PTR, width, height);
+    }
 
     /**
      * Creates a new Webview.
@@ -80,10 +90,18 @@ public class Webview implements Closeable, Runnable {
      */
     @Deprecated
     public Webview(boolean debug, @Nullable PointerByReference windowPointer) {
+        this(debug, windowPointer, 800, 600);
+    }
+
+    /**
+     * @deprecated Use this only if you absolutely know what you're doing.
+     */
+    @Deprecated
+    public Webview(boolean debug, @Nullable PointerByReference windowPointer, int width, int height) {
         $pointer = N.webview_create(debug, windowPointer);
 
         this.loadURL(null);
-        this.setSize(800, 600);
+        this.setSize(width, height);
     }
 
     /**
