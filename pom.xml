@@ -10,6 +10,7 @@
 	<modules>
 		<module>core</module>
 		<module>bridge</module>
+		<module>examples</module>
 	</modules>
 
 	<properties>
