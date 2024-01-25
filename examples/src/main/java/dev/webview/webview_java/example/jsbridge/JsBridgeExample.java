@@ -17,8 +17,8 @@ public class JsBridgeExample {
         bridge.defineObject("jpp", new RandStr());
 
         // load a URL
-//        wv.loadURL("https://google.com");
-        wv.loadURL("https://baidu.com");
+        wv.loadURL("https://google.com");
+        //wv.loadURL("https://baidu.com");
         //wv.loadURL(null);
 
         /*

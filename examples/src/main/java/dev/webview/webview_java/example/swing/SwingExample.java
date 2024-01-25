@@ -23,8 +23,8 @@ public class SwingExample {
                 return arguments;
             });
 
-            //wv.loadURL("https://google.com");
-            wv.loadURL("https://baidu.com");
+            wv.loadURL("https://google.com");
+            //wv.loadURL("https://baidu.com");
             //wv.loadURL(null);
 
             frame.addWindowListener(new WindowAdapter() {

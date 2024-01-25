@@ -63,8 +63,8 @@ public class FxExample extends Application {
             }
         });
 
-        //wv.loadURL("https://google.com");
-        wv.loadURL("https://baidu.com");
+        wv.loadURL("https://google.com");
+        //wv.loadURL("https://baidu.com");
         //wv.loadURL(null);
 
 //        new Thread(() -> {
