@@ -21,6 +21,12 @@ public class BridgeExample {
             return "junk";
         });
 
+        // Calling `await echo(1,2,3)` will return `[1,2,3]`
+        wv.bind("setDarkAppearance", (arguments) -> {
+            wv.setDarkAppearance(arguments.contains("true")); // Use an actual Json parser. This is just a dirty example.
+            return null;
+        });
+
         wv.setTitle("My Webview App");
         wv.setSize(800, 600);
         wv.setHTML(
@@ -28,6 +34,8 @@ public class BridgeExample {
                 + "<html>"
                 + "<p>Nano Time: <span id='nano-time'></span></p>"
                 + "<button onclick='Test.ringBell();'>Ring Bell</button>"
+                + "<button onclick='setDarkAppearance(true);'>Set Dark</button>"
+                + "<button onclick='setDarkAppearance(false);'>Set Light</button>"
                 + "<script>"
                 + "Test.__stores.svelte('nanoTime')"
                 + ".subscribe((time) => {"
@@ -42,6 +50,8 @@ public class BridgeExample {
     }
 
     public static class TestObject extends JavascriptObject {
+
+        public final NestedTestObject nested = new NestedTestObject();
 
         @JavascriptValue(allowSet = false, watchForMutate = true)
         public long nanoTime = -1;
@@ -59,6 +69,15 @@ public class BridgeExample {
         @JavascriptFunction
         public void ringBell() {
             Toolkit.getDefaultToolkit().beep();
+        }
+
+    }
+
+    public static class NestedTestObject extends JavascriptObject {
+
+        @JavascriptFunction
+        public void test() {
+            System.out.println("Test");
         }
 
     }

@@ -106,7 +106,11 @@ const Bridge = {
                 root = root[part];
             }
 
-            root[propertyName] = proxy;
+            Object.defineProperty(root, propertyName, {
+                value: proxy,
+                writable: true,
+                configurable: true
+            });
         },
 
         get(id, property) {
