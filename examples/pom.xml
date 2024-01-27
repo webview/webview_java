@@ -29,7 +29,7 @@
         <dependency>
             <groupId>dev.webview.webview_java</groupId>
             <artifactId>webview_java</artifactId>
-            <version>PLACEHOLDER</version>
+            <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
 
