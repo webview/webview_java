@@ -89,9 +89,9 @@ public class AWTWebview extends Canvas implements Closeable {
             height -= 39;
         }
 
-        //this.webview.setFixedSize(width, height);
-        this.webview.setMinSize(width, height);
-        this.webview.setMaxSize(width, height);
+        this.webview.setFixedSize(width, height);
+        //this.webview.setMinSize(width, height);
+        //this.webview.setMaxSize(width, height);
     }
 
     @Override

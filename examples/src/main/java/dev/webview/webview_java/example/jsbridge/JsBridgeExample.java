@@ -6,10 +6,9 @@ import dev.webview.webview_java.bridge.WebviewBridge;
 public class JsBridgeExample {
 
     public static void main(String[] args) {
-        Webview wv = new Webview(true); // Can optionally be created with an AWT component to be painted on.
+        Webview wv = new Webview(true, 300, 200); // Can optionally be created with an AWT component to be painted on.
 
         wv.setTitle("My Webview App");
-        wv.setSize(300, 200);
 
         WebviewBridge bridge = new WebviewBridge(wv);
         // await jpp.a("a"), await jpp.b("a", "b"),   await jpp.c(1024),
