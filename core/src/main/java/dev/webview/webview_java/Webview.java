@@ -49,21 +49,53 @@ public class Webview implements Closeable, Runnable {
     private String initScript = "";
 
     /**
-     * Creates a new Webview.
-     * 
+     * Creates a new Webview. <br/>
+     * The default size will be set, and if the size is set again before loading the URL, a splash will appear.<br/>
+     * eg: <pre><code>
+     *   WebView wv = new WebView(true);
+     *   wv.setSize(1280, 720);
+     *   wv.loadURL("...")
+     * </code></pre>
+     * It's recommended that setting size together:
+     * <pre><code>
+     *   WebView wv = new WebView(true, 1280, 720);
+     *   wv.loadURL("...")
+     * </code></pre>
      * @param debug Enables devtools/inspect element if true.
+     * @see #Webview(boolean, int, int) 
      */
     public Webview(boolean debug) {
         this(debug, (PointerByReference) null);
     }
-
     /**
      * Creates a new Webview.
-     * 
+     *
+     * @param debug Enables devtools/inspect element if true.
+     * @param width preset - width
+     * @param height preset - height
+     */
+    public Webview(boolean debug, int width, int height) {
+        this(debug, null, width, height);
+    }
+
+    /**
+     * Creates a new Webview. <br/>
+     * The default size will be set, and if the size is set again before loading the URL, a splash will appear.<br/>
+     * eg: <pre><code>
+     *   WebView wv = new WebView(true);
+     *   wv.setSize(1280, 720);
+     *   wv.loadURL("...")
+     * </code></pre>
+     * It's recommended that setting size together:
+     * <pre><code>
+     *   WebView wv = new WebView(true, 1280, 720);
+     *   wv.loadURL("...")
+     * </code></pre>
      * @param debug  Enables devtools/inspect element if true.
      * 
      * @param target The target awt component, such as a {@link java.awt.JFrame} or
      *               {@link java.awt.Canvas}. Must be "drawable".
+     * @see #Webview(boolean, PointerByReference, int, int) 
      */
     public Webview(boolean debug, @NonNull Component target) {
         this(debug, new PointerByReference(Native.getComponentPointer(target)));
@@ -74,10 +106,18 @@ public class Webview implements Closeable, Runnable {
      */
     @Deprecated
     public Webview(boolean debug, @Nullable PointerByReference windowPointer) {
+        this(debug, windowPointer, 800, 600);
+    }
+
+    /**
+     * @deprecated Use this only if you absolutely know what you're doing.
+     */
+    @Deprecated
+    public Webview(boolean debug, @Nullable PointerByReference windowPointer, int width, int height) {
         $pointer = N.webview_create(debug, windowPointer);
 
         this.loadURL(null);
-        this.setSize(800, 600);
+        this.setSize(width, height);
     }
 
     /**
