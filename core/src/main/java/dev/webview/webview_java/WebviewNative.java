@@ -83,6 +83,7 @@ interface WebviewNative extends Library {
             }
 
             try {
+                // Copy it to a file.
                 InputStream in = WebviewNative.class.getResourceAsStream(lib.toLowerCase());
                 byte[] bytes = StreamUtil.toBytes(in);
                 Files.write(target.toPath(), bytes);
@@ -92,6 +93,8 @@ interface WebviewNative extends Library {
                 System.err.println("Unable to extract native: " + lib);
                 throw e;
             }
+
+            System.load(target.getAbsolutePath()); // Load it. This is so Native will be able to link it.
         }
 
         return Native.load("webview", WebviewNative.class);
