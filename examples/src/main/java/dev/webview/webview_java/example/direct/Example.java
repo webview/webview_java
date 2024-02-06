@@ -1,4 +1,4 @@
-package dev.webview.webview_java.example.raw;
+package dev.webview.webview_java.example.direct;
 
 import dev.webview.webview_java.Webview;
 
