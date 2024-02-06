@@ -24,6 +24,9 @@ __MACOSX
 /bridge/webview.dll
 /bridge/libwebview.so
 /bridge/libwebview.dylib
+/examples/webview.dll
+/examples/libwebview.so
+/examples/libwebview.dylib
 /webview.dll
 /libwebview.so
 /libwebview.dylib
