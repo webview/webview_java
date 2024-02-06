@@ -6,6 +6,8 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
+import dev.webview.webview_java.AWTWebview;
+
 /**
  * do not support resize!
  * */

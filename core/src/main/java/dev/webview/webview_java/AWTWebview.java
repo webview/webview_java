@@ -1,14 +1,12 @@
-package dev.webview.webview_java.example.swing;
+package dev.webview.webview_java;
 
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.io.Closeable;
 import java.util.function.Consumer;
 
-import co.casterlabs.commons.platform.OSDistribution;
-import co.casterlabs.commons.platform.Platform;
-import dev.webview.webview_java.Webview;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,6 +39,7 @@ public class AWTWebview extends Canvas implements Closeable {
      */
     public AWTWebview(boolean debug) {
         this.debug = debug;
+        this.setBackground(Color.BLACK);
     }
 
     @Override
@@ -59,7 +58,6 @@ public class AWTWebview extends Canvas implements Closeable {
             this.initialized = true;
 
             // We need to create the webview off of the swing thread.
-
             Thread t = new Thread(() -> {
                 this.webview = new Webview(this.debug, this);
 
@@ -81,17 +79,7 @@ public class AWTWebview extends Canvas implements Closeable {
         int width = this.lastSize.width;
         int height = this.lastSize.height;
 
-        // There is a random margin on Windows that isn't visible, so we must
-        // compensate.
-        // TODO figure out why this is caused.
-        if (Platform.osDistribution == OSDistribution.WINDOWS_NT) {
-            width -= 16;
-            height -= 39;
-        }
-
         this.webview.setFixedSize(width, height);
-        //this.webview.setMinSize(width, height);
-        //this.webview.setMaxSize(width, height);
     }
 
     @Override
