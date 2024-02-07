@@ -36,6 +36,7 @@ import com.sun.jna.Structure;
 import com.sun.jna.ptr.PointerByReference;
 
 import co.casterlabs.commons.io.streams.StreamUtil;
+import co.casterlabs.commons.platform.LinuxLibC;
 import co.casterlabs.commons.platform.Platform;
 import lombok.NonNull;
 import lombok.SneakyThrows;
@@ -49,9 +50,15 @@ interface WebviewNative extends Library {
 
         switch (Platform.osDistribution) {
             case LINUX: {
-                libraries = new String[] {
-                        "/dev/webview/webview_java/natives/" + Platform.archTarget + "/linux/libwebview.so"
-                };
+                if (LinuxLibC.isGNU()) {
+                    libraries = new String[] {
+                            "/dev/webview/webview_java/natives/" + Platform.archTarget + "/linux/gnu/libwebview.so"
+                    };
+                } else {
+                    libraries = new String[] {
+                            "/dev/webview/webview_java/natives/" + Platform.archTarget + "/linux/musl/libwebview.so"
+                    };
+                }
                 break;
             }
 
