@@ -89,9 +89,8 @@ interface WebviewNative extends Library {
                 target.delete();
             }
 
-            try {
-                // Copy it to a file.
-                InputStream in = WebviewNative.class.getResourceAsStream(lib.toLowerCase());
+            // Copy it to a file.
+            try (InputStream in = WebviewNative.class.getResourceAsStream(lib.toLowerCase())) {
                 byte[] bytes = StreamUtil.toBytes(in);
                 Files.write(target.toPath(), bytes);
             } catch (Exception e) {
