@@ -88,6 +88,7 @@ interface WebviewNative extends Library {
             if (target.exists()) {
                 target.delete();
             }
+            target.deleteOnExit();
 
             // Copy it to a file.
             try (InputStream in = WebviewNative.class.getResourceAsStream(lib.toLowerCase())) {
