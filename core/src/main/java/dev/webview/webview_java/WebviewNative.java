@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import com.sun.jna.Callback;
@@ -104,7 +105,11 @@ interface WebviewNative extends Library {
             System.load(target.getAbsolutePath()); // Load it. This is so Native will be able to link it.
         }
 
-        return Native.load("webview", WebviewNative.class);
+        return Native.load(
+            "webview",
+            WebviewNative.class,
+            Collections.singletonMap(Library.OPTION_STRING_ENCODING, "UTF-8")
+        );
     }
 
     static final int WV_HINT_NONE = 0;

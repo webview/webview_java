@@ -111,4 +111,33 @@ class _WebviewUtil {
         return output.toString();
     }
 
+    static String forceSafeChars(@NonNull String input) {
+        char[] chars = input.toCharArray();
+
+        StringBuilder output = new StringBuilder();
+
+        for (int i = 0; i < chars.length; i++) {
+            char ch = chars[i];
+
+            switch (ch) {
+                case 0: {
+                    output.append("\\u0000");
+                    break;
+                }
+
+                default: {
+                    if (ch > 127) {
+                        output.append("\\u").append(String.format("%04x", (int) ch));
+                    } else {
+                        output.append(ch);
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        return output.toString();
+    }
+
 }

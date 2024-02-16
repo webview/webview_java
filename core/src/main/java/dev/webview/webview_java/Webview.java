@@ -50,28 +50,40 @@ public class Webview implements Closeable, Runnable {
 
     /**
      * Creates a new Webview. <br/>
-     * The default size will be set, and if the size is set again before loading the URL, a splash will appear.<br/>
-     * eg: <pre><code>
+     * The default size will be set, and if the size is set again before loading the
+     * URL, a splash will appear.<br/>
+     * eg:
+     * 
+     * <pre>
+     * <code>
      *   WebView wv = new WebView(true);
      *   wv.setSize(1280, 720);
      *   wv.loadURL("...")
-     * </code></pre>
+     * </code>
+     * </pre>
+     * 
      * It's recommended that setting size together:
-     * <pre><code>
+     * 
+     * <pre>
+     * <code>
      *   WebView wv = new WebView(true, 1280, 720);
      *   wv.loadURL("...")
-     * </code></pre>
+     * </code>
+     * </pre>
+     * 
      * @param debug Enables devtools/inspect element if true.
-     * @see #Webview(boolean, int, int) 
+     * 
+     * @see         #Webview(boolean, int, int)
      */
     public Webview(boolean debug) {
         this(debug, (PointerByReference) null);
     }
+
     /**
      * Creates a new Webview.
      *
-     * @param debug Enables devtools/inspect element if true.
-     * @param width preset - width
+     * @param debug  Enables devtools/inspect element if true.
+     * @param width  preset - width
      * @param height preset - height
      */
     public Webview(boolean debug, int width, int height) {
@@ -80,22 +92,33 @@ public class Webview implements Closeable, Runnable {
 
     /**
      * Creates a new Webview. <br/>
-     * The default size will be set, and if the size is set again before loading the URL, a splash will appear.<br/>
-     * eg: <pre><code>
+     * The default size will be set, and if the size is set again before loading the
+     * URL, a splash will appear.<br/>
+     * eg:
+     * 
+     * <pre>
+     * <code>
      *   WebView wv = new WebView(true);
      *   wv.setSize(1280, 720);
      *   wv.loadURL("...")
-     * </code></pre>
+     * </code>
+     * </pre>
+     * 
      * It's recommended that setting size together:
-     * <pre><code>
+     * 
+     * <pre>
+     * <code>
      *   WebView wv = new WebView(true, 1280, 720);
      *   wv.loadURL("...")
-     * </code></pre>
+     * </code>
+     * </pre>
+     * 
      * @param debug  Enables devtools/inspect element if true.
      * 
      * @param target The target awt component, such as a {@link java.awt.JFrame} or
      *               {@link java.awt.Canvas}. Must be "drawable".
-     * @see #Webview(boolean, PointerByReference, int, int) 
+     * 
+     * @see          #Webview(boolean, PointerByReference, int, int)
      */
     public Webview(boolean debug, @NonNull Component target) {
         this(debug, new PointerByReference(Native.getComponentPointer(target)));
@@ -232,12 +255,14 @@ public class Webview implements Closeable, Runnable {
             @Override
             public void callback(long seq, String req, long arg) {
                 try {
+                    req = _WebviewUtil.forceSafeChars(req);
+
                     String result = handler.apply(req);
                     if (result == null) {
                         result = "null";
                     }
 
-                    N.webview_return($pointer, seq, false, result);
+                    N.webview_return($pointer, seq, false, _WebviewUtil.forceSafeChars(result));
                 } catch (Throwable e) {
                     e.printStackTrace();
 
