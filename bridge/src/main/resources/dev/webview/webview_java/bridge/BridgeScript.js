@@ -10,7 +10,7 @@ function randomId() {
 let listeners = {};
 const Bridge = {
     on(type, callback) {
-        if (typeof type != "string" || !(callback instanceof Function)) {
+        if (typeof type !== "string" || !(callback instanceof Function)) {
             throw "`type` must be a string and `callback` must be a function.";
         }
 
@@ -56,9 +56,9 @@ const Bridge = {
                             },
                             set(val) {
                                 proxy[field] = val;
-                            }
+                            },
                         };
-                    }
+                    },
                 },
 
                 __internal: {
@@ -67,8 +67,12 @@ const Bridge = {
                     defineFunction(name) {
                         Object.defineProperty(object, name, {
                             value: function () {
-                                return Bridge.__internal.invoke(id, name, Array.from(arguments));
-                            }
+                                return Bridge.__internal.invoke(
+                                    id,
+                                    name,
+                                    Array.from(arguments)
+                                );
+                            },
                         });
                     },
 
@@ -76,15 +80,15 @@ const Bridge = {
                         Object.defineProperty(object, name, {
                             value: null,
                             writable: true,
-                            configurable: true
+                            configurable: true,
                         });
-                    }
-                }
+                    },
+                },
             };
 
             const handler = {
                 get(obj, property) {
-                    if (typeof obj[property] != "undefined" && obj[property] != null) {
+                    if (typeof obj[property] !== "undefined" && obj[property] !== null) {
                         return obj[property];
                     }
 
@@ -93,8 +97,8 @@ const Bridge = {
                 set(obj, property, value) {
                     Bridge.__internal.set(id, property, value);
                     return value;
-                }
-            }
+                },
+            };
 
             Object.freeze(object.__stores);
             Object.freeze(object.__internal);
@@ -109,7 +113,7 @@ const Bridge = {
             Object.defineProperty(root, propertyName, {
                 value: proxy,
                 writable: true,
-                configurable: true
+                configurable: true,
             });
         },
 
@@ -118,7 +122,11 @@ const Bridge = {
         },
 
         set(id, property, newValue) {
-            return Bridge.__internal.sendMessageToJava("SET", { id, property, newValue });
+            return Bridge.__internal.sendMessageToJava("SET", {
+                id,
+                property,
+                newValue,
+            });
         },
 
         mutate(id, property, callback) {
@@ -129,7 +137,11 @@ const Bridge = {
         },
 
         invoke(id, func, arguments) {
-            return Bridge.__internal.sendMessageToJava("INVOKE", { id, "function": func, arguments });
+            return Bridge.__internal.sendMessageToJava("INVOKE", {
+                id,
+                function: func,
+                arguments,
+            });
         },
 
         broadcast(type, data) {
@@ -140,7 +152,10 @@ const Bridge = {
                     try {
                         callback(type.toLowerCase(), data);
                     } catch (e) {
-                        console.error("[Webview-Bridge]", "A listener produced an exception: ");
+                        console.error(
+                            "[Webview-Bridge]",
+                            "A listener produced an exception: "
+                        );
                         console.error(e);
                     }
                 });
@@ -153,22 +168,24 @@ const Bridge = {
                     try {
                         callback(data);
                     } catch (e) {
-                        console.error("[Webview-Bridge]", "A listener produced an exception: ");
+                        console.error(
+                            "[Webview-Bridge]",
+                            "A listener produced an exception: "
+                        );
                         console.error(e);
                     }
                 });
             }
-        }
-    }
+        },
+    },
 };
-
 
 Object.freeze(Bridge);
 Object.freeze(Bridge.__internal);
 Object.defineProperty(window, "Bridge", {
     value: Bridge,
     writable: false,
-    configurable: false
+    configurable: false,
 });
 
 console.log("[Webview-Bridge]", "Injected bridge script.");
