@@ -18,18 +18,10 @@ The Java port of the [webview project](https://github.com/webview/webview). It u
 <table width=300>
     <tr>
         <td align="right" width=64>
-            <img src="https://simpleicons.org/icons/linux.svg" title="Linux" width="32" height="32">
-        </td>
-        <td align="left">
-            x86_64
-        </td>
-    </tr>
-    <tr>
-        <td align="right" width=64>
             <img src="https://simpleicons.org/icons/windows.svg" title="Windows" width="32" height="32">
         </td>
         <td align="left">
-            x86_64
+            x86, x86_64
         </td>
     </tr>
     <tr>
@@ -40,7 +32,18 @@ The Java port of the [webview project](https://github.com/webview/webview). It u
             aarch64, x86_64
         </td>
     </tr>
+    <tr>
+        <td align="right" width=64>
+            <img src="https://simpleicons.org/icons/linux.svg" title="Linux" width="32" height="32">
+        </td>
+        <td align="left">
+            x86, x86_64, arm, aarch64
+        </td>
+    </tr>
 </table>
+
+### Linux
+Both MUSL and GLibC are supported out of the box. So it should work fine under distros like Debian, Arch, and Alpine.
 
 ### macOS
 
