@@ -26,13 +26,12 @@ public class FxExample extends Application {
     public void start(Stage stage) throws Exception {
         root = new StackPane();
 
-        Scene s = new Scene(root, 400,300);
+        Scene s = new Scene(root, 800,600);
         stage.setScene(s);
         stage.setTitle("TestWindow");
 
         stage.show();
         this.stage = stage;
-        stage.setResizable(false);  // not allow to resize
 
         this.initWv();
     }
@@ -43,16 +42,18 @@ public class FxExample extends Application {
         wv = new Webview(true, new PointerByReference(FXStageDetect.getWindowPointer(stage)),
                 (int)s.getWidth(), (int)s.getHeight());
         wv.setTitle("TestWindow");
+        // note: not allow to resize
+        wv.setFixedSize((int)s.getWidth(), (int)s.getHeight());
 
         bindJs();
 
         // bind resize (not working)
-        s.widthProperty().addListener((observable, oldValue, newValue) -> {
-            wv.setSize(newValue.intValue(), (int)s.getHeight());
-        });
-        s.heightProperty().addListener((observable, oldValue, newValue) -> {
-            wv.setSize((int)s.getWidth(), newValue.intValue());
-        });
+        //s.widthProperty().addListener((observable, oldValue, newValue) -> {
+        //    wv.setSize(newValue.intValue(), (int)s.getHeight());
+        //});
+        //s.heightProperty().addListener((observable, oldValue, newValue) -> {
+        //    wv.setSize((int)s.getWidth(), newValue.intValue());
+        //});
 
         // 关闭
         stage.setOnCloseRequest(e -> {
