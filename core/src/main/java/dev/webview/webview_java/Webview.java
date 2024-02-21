@@ -31,6 +31,10 @@ import static dev.webview.webview_java.WebviewNative.WV_HINT_NONE;
 
 import java.awt.Component;
 import java.io.Closeable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -47,6 +51,17 @@ public class Webview implements Closeable, Runnable {
     public long $pointer;
 
     private String initScript = "";
+    private String onloadScript = """ 
+            window.onload = async function(e) {
+              await __windowOnLoad(e);
+            } 
+            """;
+    /** hold all functions, to fix refresh  */
+    private Map<String, WebviewBindCallback> functionHolder = new HashMap<>();
+    /** page reload event.
+     * It's not related to Thread, representing only one method, no argument, no return
+     * */
+    private Runnable onloadHandler;
 
     /**
      * Creates a new Webview. <br/>
@@ -141,6 +156,15 @@ public class Webview implements Closeable, Runnable {
 
         this.loadURL(null);
         this.setSize(width, height);
+
+        // bind window.onload event, rebind all functions
+        this.bind("__windowOnLoad", (arg) -> {
+            functionHolder.forEach((name, cb) -> this.bind(name, cb));
+            if (onloadHandler!=null) {
+                onloadHandler.run();
+            }
+            return "true";
+        });
     }
 
     /**
@@ -153,7 +177,7 @@ public class Webview implements Closeable, Runnable {
 
     public void setHTML(@Nullable String html) {
         N.webview_set_html($pointer, html);
-        this.eval(this.initScript);
+        this.executeOnloadAndInitScript();
     }
 
     public void loadURL(@Nullable String url) {
@@ -162,6 +186,11 @@ public class Webview implements Closeable, Runnable {
         }
 
         N.webview_navigate($pointer, url);
+        this.executeOnloadAndInitScript();
+    }
+
+    public void executeOnloadAndInitScript() {
+        this.eval(this.onloadScript);
         this.eval(this.initScript);
     }
 
@@ -193,6 +222,7 @@ public class Webview implements Closeable, Runnable {
      * @param    script
      */
     public void setInitScript(@NonNull String script) {
+        script = onloadScript + script;
         script = String.format(
             "(async () => {"
                 + "try {"
@@ -272,6 +302,9 @@ public class Webview implements Closeable, Runnable {
                 }
             }
         }, 0);
+
+        // note: is there necessary to detect name and handle both existed (the same one).
+        functionHolder.put(name, handler);
     }
 
     /**
@@ -350,4 +383,8 @@ public class Webview implements Closeable, Runnable {
         return new String(bytes, 0, length);
     }
 
+    /** Executing while window.onload.  */
+    public void setOnloadHandler(Runnable onloadHandler) {
+        this.onloadHandler = onloadHandler;
+    }
 }

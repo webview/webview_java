@@ -67,6 +67,9 @@ public class WebviewBridge {
             switch (type) {
                 case "INIT": {
                     this.webview.eval("console.log('[Webview-Bridge]', 'Bridge init completed.');");
+                    // todo rebind objects
+                    //this.rebuildInitScript();
+                    //this.webview.executeOnloadAndInitScript();
                     return null;
                 }
 
