@@ -12,6 +12,11 @@ The Java port of the [webview project](https://github.com/webview/webview). It u
 
 [Example](https://github.com/webview/webview_java/blob/main/core/src/test/java/com/example/webview_java/Example.java)  
 [Bridge Example](https://github.com/webview/webview_java/blob/main/bridge/src/test/java/com/example/webview_java/BridgeExample.java)
+### More Examples
+[Direct](examples/src/main/java/dev/webview/webview_java/example/direct/Example.java)  
+[Bridge Example](examples/src/main/java/dev/webview/webview_java/example/jsbridge/JsBridgeExample.java)  (recommend)  
+[OpenFX](examples/src/main/java/dev/webview/webview_java/example/fx/FxExample.java)  
+[Swing](examples/src/main/java/dev/webview/webview_java/example/swing/SwingExample.java)  
 
 ## Supported Platforms
 
