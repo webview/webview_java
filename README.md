@@ -51,6 +51,8 @@ macOS requires that all UI code be executed from the first thread, which means y
 
 ## Getting the code
 
+[![](https://jitpack.io/v/webview/webview_java.svg)](https://jitpack.io/#webview/webview_java)
+
 Replace `_VERSION` with the latest version or commit in this repo. If you want the Bridge bindings you'll need both `core` and `bridge`.
 
 <details>
@@ -83,7 +85,7 @@ allprojects {
 }
 
 dependencies {
-  implementation 'co.casterlabs:Commons.core:_VERSION'
+  implementation 'com.github.webview.webview_java:core:_VERSION'
 }
 ```
 
