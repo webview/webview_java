@@ -51,11 +51,10 @@ public class Webview implements Closeable, Runnable {
     public long $pointer;
 
     private String initScript = "";
-    private String onloadScript = """ 
-            window.onload = async function(e) {
-              await __windowOnLoad(e);
-            } 
-            """;
+    private String onloadScript = "\r\n"+
+            "window.onload = async function(e) {\n\n"+
+            "   await __windowOnLoad(e);\r\n" +
+            "}\r\n";
     /** hold all functions, to fix refresh  */
     private Map<String, WebviewBindCallback> functionHolder = new HashMap<>();
     /** page reload event.
