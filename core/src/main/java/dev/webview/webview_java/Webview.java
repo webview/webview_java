@@ -46,7 +46,7 @@ public class Webview implements Closeable, Runnable {
     @Deprecated
     public long $pointer;
 
-    private String initScript = "";
+//    private String initScript = "";
 
     /**
      * Creates a new Webview. <br/>
@@ -153,7 +153,7 @@ public class Webview implements Closeable, Runnable {
 
     public void setHTML(@Nullable String html) {
         N.webview_set_html($pointer, html);
-        this.eval(this.initScript);
+//        this.eval(this.initScript);
     }
 
     public void loadURL(@Nullable String url) {
@@ -162,7 +162,7 @@ public class Webview implements Closeable, Runnable {
         }
 
         N.webview_navigate($pointer, url);
-        this.eval(this.initScript);
+//        this.eval(this.initScript);
     }
 
     public void setTitle(@NonNull String title) {
@@ -206,7 +206,7 @@ public class Webview implements Closeable, Runnable {
         );
 
         N.webview_init($pointer, script);
-        this.initScript = script;
+//        this.initScript = script;
     }
 
     /**
