@@ -27,8 +27,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
@@ -37,6 +35,7 @@ import co.casterlabs.commons.io.streams.StreamUtil;
 import co.casterlabs.rakurai.json.Rson;
 import co.casterlabs.rakurai.json.element.JsonArray;
 import co.casterlabs.rakurai.json.element.JsonElement;
+import co.casterlabs.rakurai.json.element.JsonNull;
 import co.casterlabs.rakurai.json.element.JsonObject;
 import co.casterlabs.rakurai.json.element.JsonString;
 import dev.webview.webview_java.Webview;
@@ -66,6 +65,15 @@ public class WebviewBridge {
 
             switch (type) {
                 case "INIT": {
+                    for (Map.Entry<String, JavascriptObject> entry : new ArrayList<>(this.objects.entrySet())) {
+                        if (!entry.getKey().contains(".")) {
+                            entry
+                                .getValue()
+                                .getInitLines(entry.getKey(), this)
+                                .forEach(this.webview::eval);
+                        }
+                    }
+                    this.emit("init", JsonNull.INSTANCE);
                     this.webview.eval("console.log('[Webview-Bridge]', 'Bridge init completed.');");
                     return null;
                 }
@@ -100,18 +108,7 @@ public class WebviewBridge {
     }
 
     private void rebuildInitScript() {
-        List<String> linesToExecute = new LinkedList<>();
-        linesToExecute.add(bridgeScript);
-
-        for (Map.Entry<String, JavascriptObject> entry : new ArrayList<>(this.objects.entrySet())) {
-            if (!entry.getKey().contains(".")) {
-                linesToExecute.addAll(
-                    entry.getValue().getInitLines(entry.getKey(), this)
-                );
-            }
-        }
-
-        this.webview.setInitScript(String.join("\n", linesToExecute));
+        this.webview.setInitScript(bridgeScript);
     }
 
     public void defineObject(@NonNull String name, @NonNull JavascriptObject obj) {
