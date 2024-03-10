@@ -46,8 +46,6 @@ public class Webview implements Closeable, Runnable {
     @Deprecated
     public long $pointer;
 
-//    private String initScript = "";
-
     /**
      * Creates a new Webview. <br/>
      * The default size will be set, and if the size is set again before loading the
@@ -186,27 +184,44 @@ public class Webview implements Closeable, Runnable {
     }
 
     /**
-     * Sets the script to be run on page load.
+     * Sets the script to be run on page load. Defaults to no nested access (false).
      * 
      * @implNote        This get's called AFTER window.load.
      * 
      * @param    script
+     * 
+     * @see             #setInitScript(String, boolean)
      */
     public void setInitScript(@NonNull String script) {
+        this.setInitScript(script, false);
+    }
+
+    /**
+     * Sets the script to be run on page load.
+     * 
+     * @implNote                   This get's called AFTER window.load.
+     * 
+     * @param    script
+     * @param    allowNestedAccess whether or not to inject the script into nested
+     *                             iframes.
+     */
+    public void setInitScript(@NonNull String script, boolean allowNestedAccess) {
         script = String.format(
-            "(async () => {"
+            "(() => {"
                 + "try {"
+                + "if (window.top == window.self || %b) {"
                 + "%s"
+                + "}"
                 + "} catch (e) {"
                 + "console.error('[Webview]', 'An error occurred whilst evaluating init script:', %s, e);"
                 + "}"
                 + "})();",
+            allowNestedAccess,
             script,
             '"' + _WebviewUtil.jsonEscape(script) + '"'
         );
 
         N.webview_init($pointer, script);
-//        this.initScript = script;
     }
 
     /**
@@ -219,13 +234,11 @@ public class Webview implements Closeable, Runnable {
             N.webview_eval(
                 $pointer,
                 String.format(
-                    "(async () => {"
-                        + "try {"
+                    "try {"
                         + "%s"
                         + "} catch (e) {"
                         + "console.error('[Webview]', 'An error occurred whilst evaluating script:', %s, e);"
-                        + "}"
-                        + "})();",
+                        + "}",
                     script,
                     '"' + _WebviewUtil.jsonEscape(script) + '"'
                 )
