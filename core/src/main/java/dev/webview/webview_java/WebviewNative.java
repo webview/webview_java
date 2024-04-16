@@ -105,6 +105,8 @@ interface WebviewNative extends Library {
             System.load(target.getAbsolutePath()); // Load it. This is so Native will be able to link it.
         }
 
+        System.setProperty("jna.library.path", ".");
+
         return Native.load(
             "webview",
             WebviewNative.class,
