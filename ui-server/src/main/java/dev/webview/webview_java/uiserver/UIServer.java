@@ -27,7 +27,6 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
 
 import org.jetbrains.annotations.Nullable;
@@ -60,10 +59,7 @@ public class UIServer implements Closeable {
 
     @SneakyThrows
     public UIServer() {
-        String hostname = "127"
-            + '.' + ThreadLocalRandom.current().nextInt(256)
-            + '.' + ThreadLocalRandom.current().nextInt(256)
-            + '.' + ThreadLocalRandom.current().nextInt(256);
+        String hostname = "localhost";
 
         // Find a random port.
         try (ServerSocket serverSocket = new ServerSocket()) {
