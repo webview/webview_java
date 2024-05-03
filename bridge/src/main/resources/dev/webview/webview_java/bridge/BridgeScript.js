@@ -187,6 +187,3 @@ if (!window.Bridge) {
         configurable: false,
     });
 }
-
-console.log("[Webview-Bridge]", "Injected bridge script.");
-Bridge.__internal.sendMessageToJava("INIT", {});

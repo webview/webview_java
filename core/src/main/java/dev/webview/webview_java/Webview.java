@@ -207,14 +207,14 @@ public class Webview implements Closeable, Runnable {
      */
     public void setInitScript(@NonNull String script, boolean allowNestedAccess) {
         script = String.format(
-            "(() => {"
-                + "try {"
-                + "if (window.top == window.self || %b) {"
-                + "%s"
-                + "}"
-                + "} catch (e) {"
-                + "console.error('[Webview]', 'An error occurred whilst evaluating init script:', %s, e);"
-                + "}"
+            "(() => {\n"
+                + "try {\n"
+                + "if (window.top == window.self || %b) {\n"
+                + "%s\n"
+                + "}\n"
+                + "} catch (e) {\n"
+                + "console.error('[Webview]', 'An error occurred whilst evaluating init script:', %s, e);\n"
+                + "}\n"
                 + "})();",
             allowNestedAccess,
             script,
@@ -234,10 +234,10 @@ public class Webview implements Closeable, Runnable {
             N.webview_eval(
                 $pointer,
                 String.format(
-                    "try {"
-                        + "%s"
-                        + "} catch (e) {"
-                        + "console.error('[Webview]', 'An error occurred whilst evaluating script:', %s, e);"
+                    "try {\n"
+                        + "%s\n"
+                        + "} catch (e) {\n"
+                        + "console.error('[Webview]', 'An error occurred whilst evaluating script:', %s, e);\n"
                         + "}",
                     script,
                     '"' + _WebviewUtil.jsonEscape(script) + '"'

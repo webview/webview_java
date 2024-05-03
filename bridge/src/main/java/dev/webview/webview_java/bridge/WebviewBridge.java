@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
@@ -65,14 +67,6 @@ public class WebviewBridge {
 
             switch (type) {
                 case "INIT": {
-                    for (Map.Entry<String, JavascriptObject> entry : new ArrayList<>(this.objects.entrySet())) {
-                        if (!entry.getKey().contains(".")) {
-                            entry
-                                .getValue()
-                                .getInitLines(entry.getKey(), this)
-                                .forEach(this.webview::eval);
-                        }
-                    }
                     this.emit("init", JsonNull.INSTANCE);
                     this.webview.eval("console.log('[Webview-Bridge]', 'Bridge init completed.');");
                     return null;
@@ -108,7 +102,22 @@ public class WebviewBridge {
     }
 
     private void rebuildInitScript() {
-        this.webview.setInitScript(bridgeScript);
+        List<String> init = new LinkedList<>();
+        init.add(bridgeScript);
+
+        for (Map.Entry<String, JavascriptObject> entry : new ArrayList<>(this.objects.entrySet())) {
+            if (!entry.getKey().contains(".")) {
+                entry
+                    .getValue()
+                    .getInitLines(entry.getKey(), this)
+                    .forEach(init::add);
+            }
+        }
+
+        init.add("console.log(\"[Webview-Bridge]\", \"Injected bridge script.\");");
+        init.add("Bridge.__internal.sendMessageToJava(\"INIT\", {});");
+
+        this.webview.setInitScript(String.join("\n\n", init), false);
     }
 
     public void defineObject(@NonNull String name, @NonNull JavascriptObject obj) {
