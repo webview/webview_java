@@ -71,8 +71,8 @@ public class UIServer implements Closeable {
         this.localAddress = String.format("http://%s:%d", hostname, this.port);
 
         this.server = new HttpServerBuilder()
-            .setHostname(hostname)
-            .setPort(this.port)
+            .withHostname(hostname)
+            .withPort(this.port)
             .build(new HttpListener() {
                 @Override
                 public @Nullable HttpResponse serveHttpSession(@NonNull HttpSession session) {
